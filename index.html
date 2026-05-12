@@ -3,117 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lipper — CSM Usage Dashboard · LSEG</title>
+<title>CSM Usage Dashboard</title>
 <style>
-/* ── All fonts are system stacks — no external requests ── */
 :root {
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", "Cascadia Code", "Fira Code", "Courier New", monospace;
+  --font-mono: "Courier New", "Lucida Console", monospace;
   --font-serif: Georgia, "Times New Roman", serif;
-  --lb:#0033A0; --lb-dark:#002280; --lb-light:#e6ecf8; --lb-pale:#f0f4fc;
-  --lk:#0a0a0a; --lw:#ffffff;
-  --g100:#f5f5f5; --g200:#e8e8e8; --g300:#d0d0d0; --g400:#9a9a9a; --g600:#555555;
-  --sg:#006633; --sgb:#e6f2ed; --sa:#7a4800; --sab:#fff3e0; --sr:#a00000; --srb:#fdecea;
+  --primary: #2c5f8a;
+  --primary-dark: #1e4266;
+  --primary-light: #ddeaf5;
+  --primary-pale: #eef4fa;
+  --black: #111111;
+  --white: #ffffff;
+  --g100: #f6f6f6;
+  --g200: #e9e9e9;
+  --g300: #d2d2d2;
+  --g400: #999999;
+  --g600: #555555;
+  --green: #1a6b3a;
+  --green-bg: #e4f2eb;
+  --amber: #7a4800;
+  --amber-bg: #fef3e2;
+  --red: #8b1a1a;
+  --red-bg: #fdecea;
+  --teal: #0f6b6b;
+  --teal-bg: #e0f4f4;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--font-sans);background:var(--g100);color:var(--lk);font-size:13px;line-height:1.5;min-height:100vh;}
-.topnav{background:var(--lb);color:var(--lw);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,51,160,.3);}
+body{font-family:var(--font-sans);background:var(--g100);color:var(--black);font-size:13px;line-height:1.5;min-height:100vh;}
+
+/* Nav */
+.topnav{background:var(--primary);color:var(--white);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
 .topnav-brand{display:flex;align-items:center;gap:14px;}
-.brand-mark{width:34px;height:34px;background:var(--lw);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--lb);}
-.topnav-title{font-family:var(--font-serif);font-size:16px;font-weight:400;color:var(--lw);letter-spacing:.01em;}
-.topnav-sub{font-size:11px;opacity:.6;color:var(--lw);}
-.nav-right{display:flex;align-items:center;gap:14px;font-size:11px;opacity:.7;color:var(--lw);}
-.filterbar{background:var(--lw);border-bottom:3px solid var(--lb);padding:10px 2rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:52px;z-index:99;box-shadow:0 2px 6px rgba(0,0,0,.07);}
-.filterbar label{font-size:10px;font-weight:600;color:var(--lb);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
-select{font-family:var(--font-sans);font-size:11px;color:var(--lk);background:var(--lw);border:1px solid var(--g300);border-radius:2px;padding:5px 10px;cursor:pointer;outline:none;}
-select:focus,select:hover{border-color:var(--lb);}
-input[type=range]{accent-color:var(--lb);cursor:pointer;}
+.brand-mark{width:34px;height:34px;background:var(--white);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--primary);flex-shrink:0;}
+.topnav-title{font-family:var(--font-serif);font-size:16px;font-weight:400;color:var(--white);}
+.topnav-sub{font-size:11px;opacity:.6;color:var(--white);}
+.nav-right{font-size:11px;opacity:.7;color:var(--white);}
+
+/* Mock data banner */
+.mock-banner{background:#fffbea;border-bottom:2px solid #e6a817;padding:7px 2rem;display:flex;align-items:center;gap:10px;font-size:11px;color:#7a4800;}
+.mock-banner strong{font-weight:600;}
+
+/* Filter bar */
+.filterbar{background:var(--white);border-bottom:3px solid var(--primary);padding:10px 2rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:52px;z-index:99;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.filterbar label{font-size:10px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
+select{font-family:var(--font-sans);font-size:11px;color:var(--black);background:var(--white);border:1px solid var(--g300);border-radius:2px;padding:5px 10px;cursor:pointer;outline:none;}
+select:focus,select:hover{border-color:var(--primary);}
+input[type=range]{accent-color:var(--primary);cursor:pointer;}
 .fsep{width:1px;height:22px;background:var(--g200);flex-shrink:0;}
 .custom-range{display:none;align-items:center;gap:6px;font-size:11px;color:var(--g600);}
 .custom-range.show{display:flex;}
-.custom-range input[type=date]{font-family:var(--font-sans);font-size:11px;padding:4px 7px;border:1px solid var(--g300);border-radius:2px;color:var(--lk);background:var(--lw);outline:none;}
+.custom-range input[type=date]{font-family:var(--font-sans);font-size:11px;padding:4px 7px;border:1px solid var(--g300);border-radius:2px;color:var(--black);background:var(--white);outline:none;}
+
+/* Main */
 .main{padding:16px 2rem 2rem;}
+
+/* KPIs */
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px;}
-.kpi{background:var(--lw);border:1px solid var(--g200);border-top:3px solid var(--lb);padding:14px 16px;}
+.kpi{background:var(--white);border:1px solid var(--g200);border-top:3px solid var(--primary);padding:14px 16px;}
 .kpi-label{font-size:10px;font-weight:600;color:var(--g600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
-.kpi-val{font-size:26px;font-weight:300;color:var(--lk);font-family:var(--font-mono);line-height:1;}
+.kpi-val{font-size:26px;font-weight:300;color:var(--black);font-family:var(--font-mono);line-height:1;}
 .kpi-sub{font-size:10px;margin-top:5px;color:var(--g400);}
-.kup{color:var(--sg);}.kdown{color:var(--sr);}.kwarn{color:var(--sa);}
-.card{background:var(--lw);border:1px solid var(--g200);padding:16px 18px;margin-bottom:16px;}
-.card-title{font-size:10px;font-weight:600;color:var(--lb);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
-.card-title-line{flex:1;height:1px;background:var(--lb-light);}
+.kup{color:var(--green);}.kdown{color:var(--red);}.kwarn{color:var(--amber);}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--g200);padding:16px 18px;margin-bottom:16px;}
+.card-title{font-size:10px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.card-title-line{flex:1;height:1px;background:var(--primary-light);}
 .card-title-note{font-weight:400;text-transform:none;font-size:10px;color:var(--g400);letter-spacing:0;}
+
+/* Tables */
 table{width:100%;border-collapse:collapse;font-size:11px;}
-th{text-align:left;font-weight:600;color:var(--lb);font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:7px 9px;border-bottom:2px solid var(--lb);white-space:nowrap;background:var(--lb-pale);}
+th{text-align:left;font-weight:600;color:var(--primary);font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:7px 9px;border-bottom:2px solid var(--primary);white-space:nowrap;background:var(--primary-pale);}
 th.sortable{cursor:pointer;user-select:none;}
-th.sortable:hover{background:var(--lb-light);}
-td{padding:7px 9px;color:var(--lk);border-bottom:1px solid var(--g200);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+th.sortable:hover{background:var(--primary-light);}
+td{padding:7px 9px;color:var(--black);border-bottom:1px solid var(--g200);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 tr:last-child td{border-bottom:none;}
-tbody tr:hover td{background:#fafcff;}
+tbody tr:hover td{background:#f8fbff;}
 .acct-row{cursor:pointer;}
-.acct-row:hover td,.acct-row.selected td{background:var(--lb-pale)!important;}
+.acct-row:hover td,.acct-row.selected td{background:var(--primary-pale)!important;}
 .user-row{cursor:pointer;}
-.user-row:hover td,.user-row.active td{background:var(--lb-pale)!important;}
+.user-row:hover td,.user-row.active td{background:var(--primary-pale)!important;}
+
+/* Badges */
 .badge{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:2px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;}
-.b-green{background:var(--sgb);color:var(--sg);}.b-amber{background:var(--sab);color:var(--sa);}.b-red{background:var(--srb);color:var(--sr);}.b-blue{background:var(--lb-light);color:var(--lb);}.b-gray{background:var(--g200);color:var(--g600);}
+.b-green{background:var(--green-bg);color:var(--green);}
+.b-amber{background:var(--amber-bg);color:var(--amber);}
+.b-red{background:var(--red-bg);color:var(--red);}
+.b-blue{background:var(--primary-light);color:var(--primary);}
+.b-gray{background:var(--g200);color:var(--g600);}
+.b-teal{background:var(--teal-bg);color:var(--teal);}
+
+/* Spark bars */
 .spark{height:4px;background:var(--g200);min-width:36px;}
 .spark-fill{height:4px;}
-.sh{background:var(--sg);}.sm{background:var(--sa);}.sl{background:var(--sr);}
+.sh{background:var(--green);}.sm{background:var(--amber);}.sl{background:var(--red);}
+
+/* Avatars */
 .avatar{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;flex-shrink:0;}
-.av0{background:var(--lb-light);color:var(--lb);}.av1{background:var(--sgb);color:var(--sg);}.av2{background:var(--sab);color:var(--sa);}.av3{background:#ede9fe;color:#4c1d95;}.av4{background:var(--srb);color:var(--sr);}.av5{background:#e0f2fe;color:#0369a1;}
+.av0{background:var(--primary-light);color:var(--primary);}
+.av1{background:var(--green-bg);color:var(--green);}
+.av2{background:var(--amber-bg);color:var(--amber);}
+.av3{background:#ede9fe;color:#4c1d95;}
+.av4{background:var(--red-bg);color:var(--red);}
+.av5{background:var(--teal-bg);color:var(--teal);}
+
+/* Mini metric strip */
 .ms-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
-.ms{background:var(--g100);padding:9px 11px;border-left:2px solid var(--lb);}
+.ms{background:var(--g100);padding:9px 11px;border-left:2px solid var(--primary);}
 .ms .msl{font-size:9px;font-weight:600;color:var(--g600);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
-.ms .msv{font-size:16px;font-weight:500;color:var(--lk);font-family:var(--font-mono);}
+.ms .msv{font-size:16px;font-weight:500;color:var(--black);font-family:var(--font-mono);}
+
+/* Tabs */
 .section-tab{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}
 .tab-btn{font-size:10px;font-weight:600;padding:5px 12px;border:1px solid var(--g300);background:transparent;color:var(--g600);cursor:pointer;letter-spacing:.03em;text-transform:uppercase;font-family:var(--font-sans);}
-.tab-btn:hover{border-color:var(--lb);color:var(--lb);}
-.tab-btn.active{background:var(--lb);color:var(--lw);border-color:var(--lb);}
+.tab-btn:hover{border-color:var(--primary);color:var(--primary);}
+.tab-btn.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+
+/* Tooltips */
 .tip-wrap{position:relative;display:inline-flex;align-items:center;}
-.tip-icon{width:14px;height:14px;border-radius:50%;background:var(--lb-light);border:1px solid var(--lb);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--lb);cursor:help;flex-shrink:0;margin-left:4px;}
-.tip-box{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:var(--lk);color:var(--lw);font-size:11px;line-height:1.55;padding:10px 13px;width:250px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .15s;white-space:normal;font-weight:400;box-shadow:0 4px 16px rgba(0,0,0,.25);}
-.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--lk);}
+.tip-icon{width:14px;height:14px;border-radius:50%;background:var(--primary-light);border:1px solid var(--primary);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--primary);cursor:help;flex-shrink:0;margin-left:4px;}
+.tip-box{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:var(--black);color:var(--white);font-size:11px;line-height:1.55;padding:10px 13px;width:250px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .15s;white-space:normal;font-weight:400;box-shadow:0 4px 16px rgba(0,0,0,.25);}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--black);}
 .tip-box.right{left:auto;right:0;transform:none;}
 .tip-box.right::after{left:auto;right:12px;transform:none;}
 .tip-wrap:hover .tip-box{opacity:1;}
+
+/* Drill-down */
 .drill-split{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px;}
 .acct-list{border-right:1px solid var(--g200);padding-right:16px;}
-.user-ts-panel{border:1px solid var(--g200);border-top:2px solid var(--lb);padding:12px 14px;margin-top:10px;background:#fafcff;}
+.user-ts-panel{border:1px solid var(--g200);border-top:2px solid var(--primary);padding:12px 14px;margin-top:10px;background:#f8fbff;}
+
+/* Job cols */
 .g3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:12px;}
 .job-col{border:1px solid var(--g200);overflow-y:auto;max-height:420px;}
 .job-col table{table-layout:auto;}
 .job-col th{position:sticky;top:0;z-index:2;}
+
+/* Roster */
 .roster-wrap{overflow-x:auto;max-height:360px;overflow-y:auto;}
-.chart-wrap{position:relative;width:100%;}
-footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding:1.5rem 2rem;font-size:10px;letter-spacing:.04em;margin-top:2rem;}
-@media(max-width:900px){.main{padding:12px 1rem 2rem;}.filterbar,.topnav{padding-left:1rem;padding-right:1rem;}.drill-split{grid-template-columns:1fr;}.acct-list{border-right:none;border-bottom:1px solid var(--g200);padding-right:0;padding-bottom:12px;}.g3{grid-template-columns:1fr;}}
+
+/* Footer */
+footer{background:var(--black);color:rgba(255,255,255,.4);text-align:center;padding:1.5rem 2rem;font-size:10px;letter-spacing:.04em;margin-top:2rem;}
+
+@media(max-width:900px){
+  .main{padding:12px 1rem 2rem;}
+  .filterbar,.topnav,.mock-banner{padding-left:1rem;padding-right:1rem;}
+  .drill-split{grid-template-columns:1fr;}
+  .acct-list{border-right:none;border-bottom:1px solid var(--g200);padding-right:0;padding-bottom:12px;}
+  .g3{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
 <nav class="topnav">
   <div class="topnav-brand">
-    <div class="brand-mark">L</div>
+    <div class="brand-mark">C</div>
     <div>
-      <div class="topnav-title">Lipper — CSM Usage Dashboard</div>
-      <div class="topnav-sub">LSEG Data &amp; Analytics · LIM 3.0</div>
+      <div class="topnav-title">CSM Usage Dashboard</div>
+      <div class="topnav-sub">Data &amp; Analytics · Usage Intelligence Platform</div>
     </div>
   </div>
-  <div class="nav-right"><span id="navDate"></span><span>·</span><span>Internal CSM team use</span></div>
+  <div class="nav-right" id="navDate"></div>
 </nav>
+
+<div class="mock-banner">
+  <span>⚠</span>
+  <span><strong>MOCK DATA ONLY.</strong> This dashboard contains entirely fictitious sample data for demonstration purposes. No real client, user, or commercial data is represented. All company names, user names, and metrics are fabricated.</span>
+</div>
 
 <div class="filterbar">
   <label>Account Manager</label>
   <select id="amF" onchange="applyAll()">
     <option value="">All Account Managers</option>
-    <option>Account Manager 1</option><option>Account Manager 2</option><option>Account Manager 3</option>
+    <option>Account Manager 1</option>
+    <option>Account Manager 2</option>
+    <option>Account Manager 3</option>
   </select>
   <div class="fsep"></div>
   <label>CSM</label>
   <select id="csmF" onchange="applyAll()">
     <option value="">All CSMs</option>
-    <option>Nolan</option><option>Dan</option><option>Pam</option>
+    <option>CSM 1</option>
+    <option>CSM 2</option>
+    <option>CSM 3</option>
   </select>
   <div class="fsep"></div>
   <label>Period</label>
@@ -130,22 +205,26 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
     <input type="date" id="dateTo" value="2025-05-31" onchange="applyAll()">
   </div>
   <div class="fsep"></div>
-  <label><span class="tip-wrap">Decline threshold<span class="tip-icon">?</span><span class="tip-box">% drop in hits (first half vs second half of period) that flags a user as Declining. Lower = catch small dips. Higher = only severe drops.</span></span></label>
+  <label>
+    <span class="tip-wrap">Decline threshold<span class="tip-icon">?</span>
+    <span class="tip-box">% drop in hits (first half vs second half of period) that flags a user as Declining. Lower = catch small dips. Higher = focus on severe drops only.</span></span>
+  </label>
   <input type="range" id="threshSlider" min="10" max="60" step="5" value="25" oninput="updateThreshold(this.value)" style="width:90px;">
-  <span id="threshVal" style="font-size:11px;font-weight:600;color:var(--lb);font-family:var(--font-mono);min-width:30px;">25%</span>
+  <span id="threshVal" style="font-size:11px;font-weight:600;color:var(--primary);font-family:var(--font-mono);min-width:30px;">25%</span>
 </div>
 
 <div class="main">
+
   <div class="kpi-row" id="kpiStrip"></div>
 
   <!-- Trend chart -->
   <div class="card">
     <div class="card-title">Monthly hits &amp; logins <div class="card-title-line"></div><span class="card-title-note" id="trendPeriod">last 3 months</span></div>
-    <div class="chart-wrap"><canvas id="trendChart" height="190" style="width:100%;display:block;"></canvas></div>
+    <canvas id="trendChart" height="190" style="width:100%;display:block;"></canvas>
     <div style="display:flex;gap:22px;margin-top:10px;font-size:10px;color:var(--g600);">
-      <span style="display:flex;align-items:center;gap:5px;"><span style="width:14px;height:3px;background:#0033A0;display:inline-block;"></span>Hits (÷100)</span>
-      <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:0;border-top:2px dashed #006633;display:inline-block;"></span>Logins</span>
-      <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:0;border-top:2px dotted #a00000;display:inline-block;"></span>Jobs</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:14px;height:3px;background:var(--primary);display:inline-block;"></span>Hits (÷100)</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:0;border-top:2px dashed var(--green);display:inline-block;"></span>Logins</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:0;border-top:2px dotted var(--red);display:inline-block;"></span>Jobs</span>
     </div>
   </div>
 
@@ -154,11 +233,15 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
     <div class="card-title">Usage by CSM <div class="card-title-line"></div></div>
     <table>
       <thead><tr>
-        <th style="width:10%;">CSM</th><th style="width:13%;">AM coverage</th><th style="width:8%;">Accounts</th>
-        <th style="width:9%;"><span class="tip-wrap">At risk<span class="tip-icon">?</span><span class="tip-box">Account has ≥1 Declining or Inactive user. Computed from hit trends — no manual flag.</span></span></th>
-        <th style="width:10%;"><span class="tip-wrap">Inactive users<span class="tip-icon">?</span><span class="tip-box right">Zero hits in last 2 months. Computed from usage data.</span></span></th>
-        <th style="width:10%;"><span class="tip-wrap">Declining users<span class="tip-icon">?</span><span class="tip-box right">Hits dropped ≥ threshold % comparing first half to second half of period.</span></span></th>
-        <th style="width:9%;">Hits / acct</th><th style="width:9%;">Total hits</th><th>Hit trend</th>
+        <th style="width:10%;">CSM</th>
+        <th style="width:13%;">AM coverage</th>
+        <th style="width:8%;">Accounts</th>
+        <th style="width:9%;"><span class="tip-wrap">At risk<span class="tip-icon">?</span><span class="tip-box">Account has ≥1 Declining or Inactive user. Computed from hit trends — no manual flag. Account-level CSM signal.</span></span></th>
+        <th style="width:10%;"><span class="tip-wrap">Inactive users<span class="tip-icon">?</span><span class="tip-box right">Zero hits in last 2 months. Computed from usage data — no manual flag.</span></span></th>
+        <th style="width:10%;"><span class="tip-wrap">Declining users<span class="tip-icon">?</span><span class="tip-box right">Hits dropped ≥ threshold % comparing first half to second half of the selected period.</span></span></th>
+        <th style="width:9%;">Hits / acct</th>
+        <th style="width:9%;">Total hits</th>
+        <th>Hit trend</th>
       </tr></thead>
       <tbody id="csmTbl"></tbody>
     </table>
@@ -166,10 +249,12 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
 
   <!-- Most declined users -->
   <div class="card">
-    <div class="card-title">Most declined users <div class="card-title-line"></div><span class="card-title-note">ranked by % drop · first half vs second half · threshold: <span id="threshDeclLabel">25</span>%</span></div>
+    <div class="card-title">Most declined users <div class="card-title-line"></div>
+      <span class="card-title-note">ranked by % drop · first half vs second half · threshold: <span id="threshDeclLabel">25</span>%</span>
+    </div>
     <table>
       <thead><tr>
-        <th style="width:12%;">User</th><th style="width:13%;">Company</th><th style="width:7%;">CSM</th><th style="width:8%;">AM</th>
+        <th style="width:12%;">User</th><th style="width:13%;">Account</th><th style="width:7%;">CSM</th><th style="width:8%;">AM</th>
         <th style="width:11%;">Role</th><th style="width:8%;">Hits</th><th style="width:7%;">Logins</th>
         <th style="width:9%;">Last login</th><th style="width:14%;">Trend</th><th style="width:7%;">Drop</th><th style="width:9%;">Status</th>
       </tr></thead>
@@ -182,14 +267,18 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
     <div class="card-title">Account &amp; user drill-down <div class="card-title-line"></div></div>
     <div class="section-tab">
       <button class="tab-btn active" onclick="setAcctTab('all',this)">All accounts</button>
-      <button class="tab-btn" onclick="setAcctTab('risk',this)"><span class="tip-wrap">At risk<span class="tip-icon">?</span><span class="tip-box">Accounts with declining or inactive users.</span></span></button>
-      <button class="tab-btn" onclick="setAcctTab('inactive',this)"><span class="tip-wrap">Has inactive users<span class="tip-icon">?</span><span class="tip-box right">Accounts with ≥1 user showing zero hits in last 2 months.</span></span></button>
+      <button class="tab-btn" onclick="setAcctTab('risk',this)">
+        <span class="tip-wrap">At risk<span class="tip-icon">?</span><span class="tip-box">Accounts with declining or inactive users — computed from hit trends.</span></span>
+      </button>
+      <button class="tab-btn" onclick="setAcctTab('inactive',this)">
+        <span class="tip-wrap">Has inactive users<span class="tip-icon">?</span><span class="tip-box right">Accounts with ≥1 user showing zero hits in the last 2 months.</span></span>
+      </button>
     </div>
     <div class="drill-split">
       <div class="acct-list">
-        <div style="font-size:9px;font-weight:600;color:var(--lb);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Accounts</div>
+        <div style="font-size:9px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Accounts</div>
         <table style="table-layout:fixed;width:100%;">
-          <thead><tr><th style="width:50%;">Company</th><th style="width:22%;">CSM</th><th>Activity</th></tr></thead>
+          <thead><tr><th style="width:50%;">Account</th><th style="width:22%;">CSM</th><th>Activity</th></tr></thead>
           <tbody id="acctTbody"></tbody>
         </table>
         <div style="font-size:10px;color:var(--g400);margin-top:8px;">● = at risk · Click to drill in</div>
@@ -202,14 +291,14 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
 
   <!-- User roster -->
   <div class="card">
-    <div class="card-title">
-      User roster by account <div class="card-title-line"></div>
+    <div class="card-title">User roster by account <div class="card-title-line"></div>
       <span class="card-title-note">
         <span class="tip-wrap">Active &amp; inactive status per user<span class="tip-icon">?</span>
-        <span class="tip-box"><strong>Status methodology — computed from Lipper hit data, no manual flags:</strong><br><br>
+        <span class="tip-box">
+          <strong>Status methodology — all computed from usage data, no manual flags:</strong><br><br>
           <strong>Active</strong> — hits in last 2 months, no significant decline.<br><br>
-          <strong>Declining</strong> — hits dropped ≥ threshold % (first half vs second half of period). Still logging in but engagement is falling.<br><br>
-          <strong>Inactive</strong> — zero hits in last 2 months.<br><br>
+          <strong>Declining</strong> — hits dropped ≥ threshold % comparing first half to second half of the selected period.<br><br>
+          <strong>Inactive</strong> — zero hits in the last 2 months.<br><br>
           <strong>Account status rollup:</strong><br>
           Healthy = all users active.<br>
           At risk = any inactive, or ≥50% declining.<br>
@@ -221,11 +310,15 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
       <table style="table-layout:auto;min-width:700px;">
         <thead><tr>
           <th style="width:13%;">Account</th>
-          <th style="width:8%;"><span class="tip-wrap">Acct status<span class="tip-icon">?</span><span class="tip-box">Healthy = all active. At risk = ≥1 inactive or ≥50% declining. Critical = all inactive. Computed from hit data.</span></span></th>
-          <th style="width:7%;">CSM</th><th style="width:10%;">AM</th>
-          <th style="width:15%;">User</th><th style="width:13%;">Role</th>
+          <th style="width:8%;"><span class="tip-wrap">Acct status<span class="tip-icon">?</span><span class="tip-box">Healthy = all active. At risk = ≥1 inactive or ≥50% declining. Critical = all inactive. Computed from usage data.</span></span></th>
+          <th style="width:7%;">CSM</th>
+          <th style="width:10%;">AM</th>
+          <th style="width:15%;">User</th>
+          <th style="width:13%;">Role</th>
           <th style="width:9%;"><span class="tip-wrap">User status<span class="tip-icon">?</span><span class="tip-box right">Active = hits last 2 mo, no major decline. Declining = hits down ≥ threshold %. Inactive = zero hits last 2 mo.</span></span></th>
-          <th style="width:7%;">Hits</th><th style="width:7%;">Logins</th><th style="width:10%;">Last login</th>
+          <th style="width:7%;">Hits</th>
+          <th style="width:7%;">Logins</th>
+          <th style="width:10%;">Last login</th>
         </tr></thead>
         <tbody id="rosterTbody"></tbody>
       </table>
@@ -236,40 +329,45 @@ footer{background:var(--lk);color:rgba(255,255,255,.4);text-align:center;padding
   <div class="card" style="margin-bottom:0;">
     <div class="card-title">Job status — by account &amp; user <div class="card-title-line"></div></div>
     <div style="display:flex;align-items:center;gap:22px;margin-bottom:12px;flex-wrap:wrap;">
-      <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:24px;font-weight:300;color:var(--sg);font-family:var(--font-mono);">142</span><span class="badge b-green">Completed</span><span style="font-size:10px;color:var(--g400);">76%</span></div>
-      <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:24px;font-weight:300;color:var(--sr);font-family:var(--font-mono);">23</span><span class="badge b-red">Failed</span><span style="font-size:10px;color:var(--g400);">12%</span></div>
-      <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:24px;font-weight:300;color:var(--sa);font-family:var(--font-mono);">22</span><span class="badge b-amber">Pending</span><span style="font-size:10px;color:var(--g400);">12%</span></div>
+      <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:24px;font-weight:300;color:var(--green);font-family:var(--font-mono);">142</span><span class="badge b-green">Completed</span><span style="font-size:10px;color:var(--g400);">76%</span></div>
+      <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:24px;font-weight:300;color:var(--red);font-family:var(--font-mono);">23</span><span class="badge b-red">Failed</span><span style="font-size:10px;color:var(--g400);">12%</span></div>
+      <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:24px;font-weight:300;color:var(--amber);font-family:var(--font-mono);">22</span><span class="badge b-amber">Pending</span><span style="font-size:10px;color:var(--g400);">12%</span></div>
       <div style="margin-left:auto;display:flex;gap:5px;flex-wrap:wrap;">
-        <span class="badge b-green">Excel 68%</span><span class="badge b-blue">Workbook 32%</span><span class="badge b-blue">SFTP 55%</span><span class="badge b-gray">My PC 45%</span>
+        <span class="badge b-green">Excel 68%</span>
+        <span class="badge b-blue">Workbook 32%</span>
+        <span class="badge b-blue">SFTP 55%</span>
+        <span class="badge b-gray">My PC 45%</span>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
-      <label style="font-size:10px;font-weight:600;color:var(--lb);text-transform:uppercase;letter-spacing:.05em;">Sort by</label>
+      <label style="font-size:10px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;">Sort by</label>
       <select id="jobSortField" onchange="renderAllJobCols()">
         <option value="co">Account name</option><option value="csm">CSM</option><option value="name">User name</option>
-        <option value="jobs">Job count</option><option value="output">Output type</option><option value="dest">Destination</option><option value="lastRun">Last run</option>
+        <option value="jobs">Job count</option><option value="output">Output type</option>
+        <option value="dest">Destination</option><option value="lastRun">Last run</option>
       </select>
       <select id="jobSortDir" onchange="renderAllJobCols()">
-        <option value="asc">A → Z / Low → High</option><option value="desc">Z → A / High → Low</option>
+        <option value="asc">A → Z / Low → High</option>
+        <option value="desc">Z → A / High → Low</option>
       </select>
     </div>
     <div class="g3" id="jobStatusGrid"></div>
   </div>
+
 </div>
 
 <footer>
-  <p>Lipper CSM Usage Dashboard · LSEG Data &amp; Analytics · LIM 3.0 · Internal use only</p>
-  <p style="margin-top:5px;">All status flags (Active / Declining / Inactive / At risk) are computed from Lipper usage logs. No manual flags are used.</p>
+  <p>CSM Usage Dashboard &nbsp;·&nbsp; Demonstration Prototype</p>
+  <p style="margin-top:6px;font-size:11px;color:rgba(255,255,255,.6);">⚠ MOCK DATA ONLY — All data in this dashboard is entirely fictitious and generated for demonstration purposes only. No real clients, users, companies, or commercial data are represented. All status flags (Active / Declining / Inactive / At risk) are computed from mock usage data using the methodology described in the tooltips. No manual flags are used.</p>
 </footer>
 
 <script>
-/* ── Tiny self-contained line chart renderer — no CDN ── */
-function drawLineChart(canvasId, labels, datasets, opts) {
+/* ── Lightweight self-contained line chart — no external libraries ── */
+function drawLineChart(canvasId, labels, datasets) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  const W = rect.width || canvas.parentElement.clientWidth || 600;
+  const W = canvas.parentElement.clientWidth || 600;
   const H = parseInt(canvas.getAttribute('height')) || 190;
   canvas.width = W * dpr;
   canvas.height = H * dpr;
@@ -277,203 +375,448 @@ function drawLineChart(canvasId, labels, datasets, opts) {
   canvas.style.height = H + 'px';
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
-
-  const PAD = { top: 12, right: 16, bottom: 32, left: 40 };
+  const PAD = {top:14,right:16,bottom:32,left:42};
   const cW = W - PAD.left - PAD.right;
   const cH = H - PAD.top - PAD.bottom;
-
-  // collect all values
   const allVals = datasets.flatMap(d => d.data);
-  const minV = 0;
-  const maxV = Math.max(...allVals) * 1.1 || 10;
-
-  function xPos(i) { return PAD.left + (i / (labels.length - 1)) * cW; }
-  function yPos(v) { return PAD.top + cH - ((v - minV) / (maxV - minV)) * cH; }
-
-  // grid lines
-  ctx.strokeStyle = 'rgba(0,0,0,0.05)';
-  ctx.lineWidth = 1;
-  const gridCount = 4;
-  for (let i = 0; i <= gridCount; i++) {
-    const y = PAD.top + (i / gridCount) * cH;
-    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + cW, y); ctx.stroke();
-    const val = Math.round(maxV - (i / gridCount) * maxV);
-    ctx.fillStyle = '#9a9a9a';
-    ctx.font = '9px ' + getComputedStyle(document.body).getPropertyValue('--font-sans').split(',')[0].trim().replace(/"/g,'');
-    ctx.textAlign = 'right';
-    ctx.fillText(val, PAD.left - 4, y + 3);
+  const maxV = Math.max(...allVals) * 1.12 || 10;
+  function xP(i){return PAD.left + (i / Math.max(labels.length-1,1)) * cW;}
+  function yP(v){return PAD.top + cH - (v / maxV) * cH;}
+  // grid
+  ctx.strokeStyle='rgba(0,0,0,0.06)';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y=PAD.top+(i/4)*cH;
+    ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(PAD.left+cW,y);ctx.stroke();
+    ctx.fillStyle='#999';ctx.font='9px sans-serif';ctx.textAlign='right';
+    ctx.fillText(Math.round(maxV-(i/4)*maxV),PAD.left-4,y+3);
   }
-
-  // x-axis labels
-  ctx.fillStyle = '#9a9a9a';
-  ctx.textAlign = 'center';
-  labels.forEach((lbl, i) => {
-    ctx.fillText(lbl, xPos(i), H - 6);
-  });
-
-  // draw each dataset
-  datasets.forEach(ds => {
+  // x labels
+  ctx.fillStyle='#999';ctx.textAlign='center';
+  labels.forEach((l,i)=>ctx.fillText(l,xP(i),H-6));
+  // datasets
+  datasets.forEach(ds=>{
     ctx.save();
-    ctx.strokeStyle = ds.color;
-    ctx.lineWidth = 2;
-    if (ds.dash) ctx.setLineDash(ds.dash);
-    else ctx.setLineDash([]);
-
-    // fill area for first dataset
-    if (ds.fill) {
-      ctx.beginPath();
-      ctx.moveTo(xPos(0), yPos(ds.data[0]));
-      ds.data.forEach((v, i) => {
-        if (i === 0) return;
-        const x0 = xPos(i-1), y0 = yPos(ds.data[i-1]);
-        const x1 = xPos(i), y1 = yPos(v);
-        const cx = (x0+x1)/2;
-        ctx.bezierCurveTo(cx, y0, cx, y1, x1, y1);
-      });
-      ctx.lineTo(xPos(ds.data.length-1), PAD.top + cH);
-      ctx.lineTo(xPos(0), PAD.top + cH);
-      ctx.closePath();
-      ctx.fillStyle = ds.fillColor || 'rgba(0,0,0,0.05)';
-      ctx.fill();
+    ctx.strokeStyle=ds.color;ctx.lineWidth=2;
+    if(ds.dash)ctx.setLineDash(ds.dash);else ctx.setLineDash([]);
+    if(ds.fill){
+      ctx.beginPath();ctx.moveTo(xP(0),yP(ds.data[0]));
+      ds.data.forEach((v,i)=>{if(!i)return;const cx=(xP(i-1)+xP(i))/2;ctx.bezierCurveTo(cx,yP(ds.data[i-1]),cx,yP(v),xP(i),yP(v));});
+      ctx.lineTo(xP(ds.data.length-1),PAD.top+cH);ctx.lineTo(xP(0),PAD.top+cH);ctx.closePath();
+      ctx.fillStyle=ds.fillColor||'rgba(0,0,0,0.04)';ctx.fill();
     }
-
-    // line
-    ctx.beginPath();
-    ctx.moveTo(xPos(0), yPos(ds.data[0]));
-    ds.data.forEach((v, i) => {
-      if (i === 0) return;
-      const x0 = xPos(i-1), y0 = yPos(ds.data[i-1]);
-      const x1 = xPos(i), y1 = yPos(v);
-      const cx = (x0+x1)/2;
-      ctx.bezierCurveTo(cx, y0, cx, y1, x1, y1);
-    });
+    ctx.beginPath();ctx.moveTo(xP(0),yP(ds.data[0]));
+    ds.data.forEach((v,i)=>{if(!i)return;const cx=(xP(i-1)+xP(i))/2;ctx.bezierCurveTo(cx,yP(ds.data[i-1]),cx,yP(v),xP(i),yP(v));});
     ctx.stroke();
-
-    // dots
-    ctx.setLineDash([]);
-    ctx.fillStyle = ds.color;
-    ds.data.forEach((v, i) => {
-      ctx.beginPath();
-      ctx.arc(xPos(i), yPos(v), 3, 0, Math.PI*2);
-      ctx.fill();
-    });
+    ctx.setLineDash([]);ctx.fillStyle=ds.color;
+    ds.data.forEach((v,i)=>{ctx.beginPath();ctx.arc(xP(i),yP(v),3,0,Math.PI*2);ctx.fill();});
     ctx.restore();
   });
 }
 
 /* ── Data ── */
 document.getElementById('navDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+
 const MONTHS_ALL=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
 const HITS_ALL=[310,330,355,370,398,421,438,520,489,482,448];
 const LOGINS_ALL=[220,235,248,262,290,305,318,335,328,342,330];
 const JOBS_ALL=[110,118,125,133,140,155,162,181,174,187,179];
+
 const avCols=['av0','av1','av2','av3','av4','av5'];
 function av(n,i){return `<div class="avatar ${avCols[i%avCols.length]}">${n.split(' ').map(p=>p[0]).join('').slice(0,2)}</div>`;}
-const jobRowsRaw=[
-  {status:'done',co:'BlackRock',csm:'Nolan',name:'James Smith',jobs:14,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
-  {status:'done',co:'BlackRock',csm:'Nolan',name:'Linda Park',jobs:8,output:'Excel',dest:'SFTP',lastRun:'2025-05-06'},
-  {status:'done',co:'Vanguard',csm:'Nolan',name:'Rachel Patel',jobs:11,output:'Workbook',dest:'My PC',lastRun:'2025-05-07'},
-  {status:'done',co:'T. Rowe Price',csm:'Dan',name:'Alice Jones',jobs:9,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
-  {status:'done',co:'T. Rowe Price',csm:'Dan',name:'Brett Moss',jobs:5,output:'Workbook',dest:'My PC',lastRun:'2025-05-06'},
-  {status:'done',co:'Columbia Threadneedle',csm:'Pam',name:'Frank Lee',jobs:3,output:'Workbook',dest:'My PC',lastRun:'2025-05-06'},
-  {status:'failed',co:'Fidelity',csm:'Dan',name:'Mike Wu',jobs:5,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
-  {status:'failed',co:'Fidelity',csm:'Dan',name:'Anna Torres',jobs:1,output:'Excel',dest:'My PC',lastRun:'2025-04-10'},
-  {status:'failed',co:'Invesco',csm:'Pam',name:'David Nguyen',jobs:2,output:'Excel',dest:'SFTP',lastRun:'2025-05-06'},
-  {status:'failed',co:'Nuveen',csm:'Dan',name:'Henry Ford',jobs:2,output:'Excel',dest:'SFTP',lastRun:'2025-05-05'},
-  {status:'pending',co:'T. Rowe Price',csm:'Dan',name:'Alice Jones',jobs:2,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
-  {status:'pending',co:'Gabelli Funds',csm:'Pam',name:'Leo Gabelli',jobs:4,output:'Excel',dest:'SFTP',lastRun:'2025-05-06'},
-  {status:'pending',co:'Gabelli Funds',csm:'Pam',name:'Mary Chin',jobs:2,output:'Workbook',dest:'My PC',lastRun:'2025-05-04'},
-];
-const accounts=[
-  {id:1,co:'BlackRock',csm:'Nolan',am:'Account Manager 1',monthlyHits:[520,540,560,580,610,640,630,680,640,620,600],users:[
-    {name:'James Smith',role:'Portfolio Analyst',email:'j.smith@blackrock.com',logins:38,jobs:14,lastLogin:'May 7',output:'Excel',dest:'SFTP',monthlyHits:[200,210,220,230,240,250,240,260,250,240,230],monthlyLogins:[6,6,7,7,7,8,7,8,7,7,7],monthlyPCs:[2,2,2,2,3,3,3,3,3,3,3]},
-    {name:'Linda Park',role:'Quant Researcher',email:'l.park@blackrock.com',logins:29,jobs:8,lastLogin:'May 6',output:'Excel',dest:'SFTP',monthlyHits:[180,185,190,195,200,205,200,220,200,190,185],monthlyLogins:[5,5,5,5,6,6,5,6,5,5,5],monthlyPCs:[1,1,1,1,2,2,2,2,2,2,2]},
-    {name:'Tom Graves',role:'Risk Manager',email:'t.graves@blackrock.com',logins:12,jobs:3,lastLogin:'Apr 30',output:'Workbook',dest:'My PC',monthlyHits:[90,90,95,95,100,100,95,110,100,100,95],monthlyLogins:[2,2,2,2,2,2,2,3,2,2,1],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-    {name:'Soo Kim',role:'Data Engineer',email:'s.kim@blackrock.com',logins:3,jobs:0,lastLogin:'Feb 10',output:'—',dest:'—',monthlyHits:[80,70,60,40,20,10,0,0,0,0,0],monthlyLogins:[2,2,1,1,1,1,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,0,0,0,0,0]},
-  ]},
-  {id:2,co:'Vanguard',csm:'Nolan',am:'Account Manager 1',monthlyHits:[480,490,500,510,520,530,540,560,540,530,510],users:[
-    {name:'Rachel Patel',role:'Fund Manager',email:'r.patel@vanguard.com',logins:31,jobs:11,lastLogin:'May 7',output:'Workbook',dest:'My PC',monthlyHits:[200,205,210,215,220,225,230,240,230,220,215],monthlyLogins:[5,5,6,6,6,6,7,7,6,6,6],monthlyPCs:[2,2,2,2,2,2,2,3,2,2,2]},
-    {name:'Dan Wu',role:'Analyst',email:'d.wu@vanguard.com',logins:22,jobs:6,lastLogin:'May 5',output:'Excel',dest:'SFTP',monthlyHits:[160,162,165,168,170,172,175,180,175,172,168],monthlyLogins:[4,4,4,4,4,4,4,4,4,4,4],monthlyPCs:[1,1,1,1,1,1,1,2,1,1,1]},
-    {name:'Carla Ruiz',role:'Compliance',email:'c.ruiz@vanguard.com',logins:14,jobs:4,lastLogin:'May 3',output:'Excel',dest:'SFTP',monthlyHits:[120,123,125,127,130,133,135,140,135,138,127],monthlyLogins:[2,2,2,3,3,3,3,3,3,3,2],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-  ]},
-  {id:3,co:'Franklin Templeton',csm:'Nolan',am:'Account Manager 2',monthlyHits:[340,310,280,250,210,180,150,120,95,70,50],users:[
-    {name:'Jack Rivera',role:'PM',email:'j.rivera@franklin.com',logins:5,jobs:1,lastLogin:'Apr 5',output:'Excel',dest:'My PC',monthlyHits:[200,185,165,145,120,100,80,65,50,35,22],monthlyLogins:[3,3,2,2,2,1,1,1,1,0,0],monthlyPCs:[2,2,1,1,1,1,1,1,1,0,0]},
-    {name:'Kate Miles',role:'Analyst',email:'k.miles@franklin.com',logins:2,jobs:0,lastLogin:'Mar 18',output:'—',dest:'—',monthlyHits:[140,125,115,105,90,80,70,55,45,35,28],monthlyLogins:[2,2,2,1,1,1,1,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,1,0,0,0,0]},
-    {name:'Priya Nair',role:'Quant Analyst',email:'p.nair@franklin.com',logins:0,jobs:0,lastLogin:'Jan 12',output:'—',dest:'—',monthlyHits:[0,0,0,0,0,0,0,0,0,0,0],monthlyLogins:[0,0,0,0,0,0,0,0,0,0,0],monthlyPCs:[0,0,0,0,0,0,0,0,0,0,0]},
-  ]},
-  {id:4,co:'T. Rowe Price',csm:'Dan',am:'Account Manager 1',monthlyHits:[380,390,400,410,420,430,440,460,450,440,430],users:[
-    {name:'Alice Jones',role:'Director, Research',email:'a.jones@troweprice.com',logins:26,jobs:9,lastLogin:'May 7',output:'Excel',dest:'SFTP',monthlyHits:[180,185,190,195,200,205,210,220,215,210,205],monthlyLogins:[5,5,5,5,5,5,5,5,5,5,5],monthlyPCs:[2,2,2,2,2,2,2,2,2,2,2]},
-    {name:'Brett Moss',role:'Analyst',email:'b.moss@troweprice.com',logins:17,jobs:5,lastLogin:'May 6',output:'Workbook',dest:'My PC',monthlyHits:[120,122,125,128,130,132,135,140,135,130,125],monthlyLogins:[3,3,3,3,3,3,3,3,3,3,3],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-    {name:'Chloe Park',role:'Quant',email:'c.park@troweprice.com',logins:9,jobs:2,lastLogin:'May 2',output:'Excel',dest:'SFTP',monthlyHits:[80,83,85,87,90,93,95,100,100,100,100],monthlyLogins:[2,2,2,2,2,2,2,2,2,2,2],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-  ]},
-  {id:5,co:'Fidelity',csm:'Dan',am:'Account Manager 2',monthlyHits:[420,400,375,340,300,260,220,185,160,140,118],users:[
-    {name:'Mike Wu',role:'Senior Analyst',email:'m.wu@fidelity.com',logins:14,jobs:5,lastLogin:'May 7',output:'Excel',dest:'SFTP',monthlyHits:[230,218,200,185,165,145,125,105,90,78,65],monthlyLogins:[4,4,4,4,3,3,3,2,2,2,2],monthlyPCs:[2,2,2,2,2,2,1,1,1,1,1]},
-    {name:'Anna Torres',role:'Researcher',email:'a.torres@fidelity.com',logins:3,jobs:1,lastLogin:'Apr 2',output:'Excel',dest:'My PC',monthlyHits:[120,112,105,95,85,75,65,55,45,38,30],monthlyLogins:[3,3,2,2,2,1,1,1,1,0,0],monthlyPCs:[1,1,1,1,1,1,1,1,1,0,0]},
-    {name:'Greg Hall',role:'PM',email:'g.hall@fidelity.com',logins:0,jobs:0,lastLogin:'Feb 14',output:'—',dest:'—',monthlyHits:[70,70,70,60,50,40,30,25,25,24,23],monthlyLogins:[2,1,1,1,1,0,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,0,0,0,0,0,0]},
-  ]},
-  {id:6,co:'Nuveen',csm:'Dan',am:'Account Manager 3',monthlyHits:[310,295,278,260,242,225,208,192,178,165,152],users:[
-    {name:'Henry Ford',role:'Quant',email:'h.ford@nuveen.com',logins:10,jobs:2,lastLogin:'May 1',output:'Excel',dest:'SFTP',monthlyHits:[185,177,167,156,145,135,125,115,107,99,92],monthlyLogins:[3,3,3,3,3,2,2,2,2,2,2],monthlyPCs:[2,2,2,2,2,2,1,1,1,1,1]},
-    {name:'Iris Chan',role:'Analyst',email:'i.chan@nuveen.com',logins:4,jobs:1,lastLogin:'May 3',output:'Excel',dest:'My PC',monthlyHits:[125,118,111,104,97,90,83,77,71,66,60],monthlyLogins:[2,2,2,2,2,2,2,2,2,1,1],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-  ]},
-  {id:7,co:'Gabelli Funds',csm:'Pam',am:'Account Manager 2',monthlyHits:[180,165,148,130,112,95,78,62,48,36,24],users:[
-    {name:'Leo Gabelli',role:'Portfolio Manager',email:'l.gabelli@gabelli.com',logins:6,jobs:4,lastLogin:'Apr 28',output:'Excel',dest:'SFTP',monthlyHits:[110,100,90,80,68,58,48,38,30,22,15],monthlyLogins:[2,2,2,2,2,1,1,1,1,1,0],monthlyPCs:[2,2,2,2,1,1,1,1,1,1,0]},
-    {name:'Mary Chin',role:'Research Analyst',email:'m.chin@gabelli.com',logins:2,jobs:2,lastLogin:'Mar 30',output:'Workbook',dest:'My PC',monthlyHits:[70,65,58,50,44,37,30,24,18,14,9],monthlyLogins:[2,1,1,1,1,1,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,0,0,0,0,0]},
-    {name:'Chris Bono',role:'Analyst',email:'c.bono@gabelli.com',logins:0,jobs:0,lastLogin:'Jan 5',output:'—',dest:'—',monthlyHits:[0,0,0,0,0,0,0,0,0,0,0],monthlyLogins:[0,0,0,0,0,0,0,0,0,0,0],monthlyPCs:[0,0,0,0,0,0,0,0,0,0,0]},
-  ]},
-  {id:8,co:'Columbia Threadneedle',csm:'Pam',am:'Account Manager 3',monthlyHits:[200,192,183,174,165,156,148,140,132,124,116],users:[
-    {name:'Frank Lee',role:'Senior PM',email:'f.lee@columbia.com',logins:13,jobs:3,lastLogin:'May 4',output:'Excel',dest:'SFTP',monthlyHits:[130,124,118,112,106,100,95,90,85,80,75],monthlyLogins:[3,3,3,3,3,2,2,2,2,2,2],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-    {name:'Grace Wong',role:'Analyst',email:'g.wong@columbia.com',logins:5,jobs:1,lastLogin:'May 2',output:'Workbook',dest:'My PC',monthlyHits:[70,68,65,62,59,56,53,50,47,44,41],monthlyLogins:[1,1,1,1,1,1,1,1,1,1,1],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
-  ]},
-  {id:9,co:'Invesco',csm:'Pam',am:'Account Manager 3',monthlyHits:[260,230,198,168,140,115,92,72,55,40,28],users:[
-    {name:'David Nguyen',role:'Analyst',email:'d.nguyen@invesco.com',logins:5,jobs:2,lastLogin:'Apr 15',output:'Excel',dest:'SFTP',monthlyHits:[160,142,122,103,85,70,56,44,34,25,17],monthlyLogins:[3,3,2,2,2,1,1,1,1,0,0],monthlyPCs:[2,2,2,1,1,1,1,1,1,0,0]},
-    {name:'Eva Chen',role:'PM',email:'e.chen@invesco.com',logins:1,jobs:0,lastLogin:'Mar 8',output:'—',dest:'—',monthlyHits:[100,88,76,65,55,45,36,28,21,15,11],monthlyLogins:[2,2,1,1,1,1,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,0,0,0,0,0]},
-    {name:'Sam Park',role:'Data Analyst',email:'s.park@invesco.com',logins:0,jobs:0,lastLogin:'Dec 20',output:'—',dest:'—',monthlyHits:[0,0,0,0,0,0,0,0,0,0,0],monthlyLogins:[0,0,0,0,0,0,0,0,0,0,0],monthlyPCs:[0,0,0,0,0,0,0,0,0,0,0]},
-  ]},
-];
-const csmHitHistory={Nolan:[320,340,360,380,400,420,430,450,440,430,420],Dan:[280,270,260,250,240,230,220,215,210,205,200],Pam:[180,170,158,145,132,120,108,95,85,75,65]};
 
-let selAcctId=1,selUserId=0,acctTab='all',THRESH=0.25;
+const jobRowsRaw=[
+  {status:'done',co:'Company 1',csm:'CSM 1',name:'User 1A',jobs:14,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
+  {status:'done',co:'Company 1',csm:'CSM 1',name:'User 1B',jobs:8,output:'Excel',dest:'SFTP',lastRun:'2025-05-06'},
+  {status:'done',co:'Company 2',csm:'CSM 1',name:'User 2A',jobs:11,output:'Workbook',dest:'My PC',lastRun:'2025-05-07'},
+  {status:'done',co:'Company 4',csm:'CSM 2',name:'User 4A',jobs:9,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
+  {status:'done',co:'Company 4',csm:'CSM 2',name:'User 4B',jobs:5,output:'Workbook',dest:'My PC',lastRun:'2025-05-06'},
+  {status:'done',co:'Company 8',csm:'CSM 3',name:'User 8A',jobs:3,output:'Workbook',dest:'My PC',lastRun:'2025-05-06'},
+  {status:'failed',co:'Company 5',csm:'CSM 2',name:'User 5A',jobs:5,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
+  {status:'failed',co:'Company 5',csm:'CSM 2',name:'User 5B',jobs:1,output:'Excel',dest:'My PC',lastRun:'2025-04-10'},
+  {status:'failed',co:'Company 9',csm:'CSM 3',name:'User 9A',jobs:2,output:'Excel',dest:'SFTP',lastRun:'2025-05-06'},
+  {status:'failed',co:'Company 6',csm:'CSM 2',name:'User 6A',jobs:2,output:'Excel',dest:'SFTP',lastRun:'2025-05-05'},
+  {status:'pending',co:'Company 4',csm:'CSM 2',name:'User 4A',jobs:2,output:'Excel',dest:'SFTP',lastRun:'2025-05-07'},
+  {status:'pending',co:'Company 7',csm:'CSM 3',name:'User 7A',jobs:4,output:'Excel',dest:'SFTP',lastRun:'2025-05-06'},
+  {status:'pending',co:'Company 7',csm:'CSM 3',name:'User 7B',jobs:2,output:'Workbook',dest:'My PC',lastRun:'2025-05-04'},
+];
+
+const accounts=[
+  {id:1,co:'Company 1',csm:'CSM 1',am:'Account Manager 1',monthlyHits:[520,540,560,580,610,640,630,680,640,620,600],users:[
+    {name:'User 1A',role:'Portfolio Analyst',email:'user1a@company1.com',logins:38,jobs:14,lastLogin:'May 7',output:'Excel',dest:'SFTP',monthlyHits:[200,210,220,230,240,250,240,260,250,240,230],monthlyLogins:[6,6,7,7,7,8,7,8,7,7,7],monthlyPCs:[2,2,2,2,3,3,3,3,3,3,3]},
+    {name:'User 1B',role:'Quant Researcher',email:'user1b@company1.com',logins:29,jobs:8,lastLogin:'May 6',output:'Excel',dest:'SFTP',monthlyHits:[180,185,190,195,200,205,200,220,200,190,185],monthlyLogins:[5,5,5,5,6,6,5,6,5,5,5],monthlyPCs:[1,1,1,1,2,2,2,2,2,2,2]},
+    {name:'User 1C',role:'Risk Manager',email:'user1c@company1.com',logins:12,jobs:3,lastLogin:'Apr 30',output:'Workbook',dest:'My PC',monthlyHits:[90,90,95,95,100,100,95,110,100,100,95],monthlyLogins:[2,2,2,2,2,2,2,3,2,2,1],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+    {name:'User 1D',role:'Data Engineer',email:'user1d@company1.com',logins:3,jobs:0,lastLogin:'Feb 10',output:'—',dest:'—',monthlyHits:[80,70,60,40,20,10,0,0,0,0,0],monthlyLogins:[2,2,1,1,1,1,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,0,0,0,0,0]},
+  ]},
+  {id:2,co:'Company 2',csm:'CSM 1',am:'Account Manager 1',monthlyHits:[480,490,500,510,520,530,540,560,540,530,510],users:[
+    {name:'User 2A',role:'Fund Manager',email:'user2a@company2.com',logins:31,jobs:11,lastLogin:'May 7',output:'Workbook',dest:'My PC',monthlyHits:[200,205,210,215,220,225,230,240,230,220,215],monthlyLogins:[5,5,6,6,6,6,7,7,6,6,6],monthlyPCs:[2,2,2,2,2,2,2,3,2,2,2]},
+    {name:'User 2B',role:'Analyst',email:'user2b@company2.com',logins:22,jobs:6,lastLogin:'May 5',output:'Excel',dest:'SFTP',monthlyHits:[160,162,165,168,170,172,175,180,175,172,168],monthlyLogins:[4,4,4,4,4,4,4,4,4,4,4],monthlyPCs:[1,1,1,1,1,1,1,2,1,1,1]},
+    {name:'User 2C',role:'Compliance',email:'user2c@company2.com',logins:14,jobs:4,lastLogin:'May 3',output:'Excel',dest:'SFTP',monthlyHits:[120,123,125,127,130,133,135,140,135,138,127],monthlyLogins:[2,2,2,3,3,3,3,3,3,3,2],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+  ]},
+  {id:3,co:'Company 3',csm:'CSM 1',am:'Account Manager 2',monthlyHits:[340,310,280,250,210,180,150,120,95,70,50],users:[
+    {name:'User 3A',role:'Portfolio Manager',email:'user3a@company3.com',logins:5,jobs:1,lastLogin:'Apr 5',output:'Excel',dest:'My PC',monthlyHits:[200,185,165,145,120,100,80,65,50,35,22],monthlyLogins:[3,3,2,2,2,1,1,1,1,0,0],monthlyPCs:[2,2,1,1,1,1,1,1,1,0,0]},
+    {name:'User 3B',role:'Analyst',email:'user3b@company3.com',logins:2,jobs:0,lastLogin:'Mar 18',output:'—',dest:'—',monthlyHits:[140,125,115,105,90,80,70,55,45,35,28],monthlyLogins:[2,2,2,1,1,1,1,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,1,0,0,0,0]},
+    {name:'User 3C',role:'Quant Analyst',email:'user3c@company3.com',logins:0,jobs:0,lastLogin:'Jan 12',output:'—',dest:'—',monthlyHits:[0,0,0,0,0,0,0,0,0,0,0],monthlyLogins:[0,0,0,0,0,0,0,0,0,0,0],monthlyPCs:[0,0,0,0,0,0,0,0,0,0,0]},
+  ]},
+  {id:4,co:'Company 4',csm:'CSM 2',am:'Account Manager 1',monthlyHits:[380,390,400,410,420,430,440,460,450,440,430],users:[
+    {name:'User 4A',role:'Director, Research',email:'user4a@company4.com',logins:26,jobs:9,lastLogin:'May 7',output:'Excel',dest:'SFTP',monthlyHits:[180,185,190,195,200,205,210,220,215,210,205],monthlyLogins:[5,5,5,5,5,5,5,5,5,5,5],monthlyPCs:[2,2,2,2,2,2,2,2,2,2,2]},
+    {name:'User 4B',role:'Analyst',email:'user4b@company4.com',logins:17,jobs:5,lastLogin:'May 6',output:'Workbook',dest:'My PC',monthlyHits:[120,122,125,128,130,132,135,140,135,130,125],monthlyLogins:[3,3,3,3,3,3,3,3,3,3,3],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+    {name:'User 4C',role:'Quantitative Analyst',email:'user4c@company4.com',logins:9,jobs:2,lastLogin:'May 2',output:'Excel',dest:'SFTP',monthlyHits:[80,83,85,87,90,93,95,100,100,100,100],monthlyLogins:[2,2,2,2,2,2,2,2,2,2,2],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+  ]},
+  {id:5,co:'Company 5',csm:'CSM 2',am:'Account Manager 2',monthlyHits:[420,400,375,340,300,260,220,185,160,140,118],users:[
+    {name:'User 5A',role:'Senior Analyst',email:'user5a@company5.com',logins:14,jobs:5,lastLogin:'May 7',output:'Excel',dest:'SFTP',monthlyHits:[230,218,200,185,165,145,125,105,90,78,65],monthlyLogins:[4,4,4,4,3,3,3,2,2,2,2],monthlyPCs:[2,2,2,2,2,2,1,1,1,1,1]},
+    {name:'User 5B',role:'Researcher',email:'user5b@company5.com',logins:3,jobs:1,lastLogin:'Apr 2',output:'Excel',dest:'My PC',monthlyHits:[120,112,105,95,85,75,65,55,45,38,30],monthlyLogins:[3,3,2,2,2,1,1,1,1,0,0],monthlyPCs:[1,1,1,1,1,1,1,1,1,0,0]},
+    {name:'User 5C',role:'Portfolio Manager',email:'user5c@company5.com',logins:0,jobs:0,lastLogin:'Feb 14',output:'—',dest:'—',monthlyHits:[70,70,70,60,50,40,30,25,25,24,23],monthlyLogins:[2,1,1,1,1,0,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,0,0,0,0,0,0]},
+  ]},
+  {id:6,co:'Company 6',csm:'CSM 2',am:'Account Manager 3',monthlyHits:[310,295,278,260,242,225,208,192,178,165,152],users:[
+    {name:'User 6A',role:'Quantitative Analyst',email:'user6a@company6.com',logins:10,jobs:2,lastLogin:'May 1',output:'Excel',dest:'SFTP',monthlyHits:[185,177,167,156,145,135,125,115,107,99,92],monthlyLogins:[3,3,3,3,3,2,2,2,2,2,2],monthlyPCs:[2,2,2,2,2,2,1,1,1,1,1]},
+    {name:'User 6B',role:'Analyst',email:'user6b@company6.com',logins:4,jobs:1,lastLogin:'May 3',output:'Excel',dest:'My PC',monthlyHits:[125,118,111,104,97,90,83,77,71,66,60],monthlyLogins:[2,2,2,2,2,2,2,2,2,1,1],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+  ]},
+  {id:7,co:'Company 7',csm:'CSM 3',am:'Account Manager 2',monthlyHits:[180,165,148,130,112,95,78,62,48,36,24],users:[
+    {name:'User 7A',role:'Portfolio Manager',email:'user7a@company7.com',logins:6,jobs:4,lastLogin:'Apr 28',output:'Excel',dest:'SFTP',monthlyHits:[110,100,90,80,68,58,48,38,30,22,15],monthlyLogins:[2,2,2,2,2,1,1,1,1,1,0],monthlyPCs:[2,2,2,2,1,1,1,1,1,1,0]},
+    {name:'User 7B',role:'Research Analyst',email:'user7b@company7.com',logins:2,jobs:2,lastLogin:'Mar 30',output:'Workbook',dest:'My PC',monthlyHits:[70,65,58,50,44,37,30,24,18,14,9],monthlyLogins:[2,1,1,1,1,1,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,0,0,0,0,0]},
+    {name:'User 7C',role:'Analyst',email:'user7c@company7.com',logins:0,jobs:0,lastLogin:'Jan 5',output:'—',dest:'—',monthlyHits:[0,0,0,0,0,0,0,0,0,0,0],monthlyLogins:[0,0,0,0,0,0,0,0,0,0,0],monthlyPCs:[0,0,0,0,0,0,0,0,0,0,0]},
+  ]},
+  {id:8,co:'Company 8',csm:'CSM 3',am:'Account Manager 3',monthlyHits:[200,192,183,174,165,156,148,140,132,124,116],users:[
+    {name:'User 8A',role:'Senior Portfolio Manager',email:'user8a@company8.com',logins:13,jobs:3,lastLogin:'May 4',output:'Excel',dest:'SFTP',monthlyHits:[130,124,118,112,106,100,95,90,85,80,75],monthlyLogins:[3,3,3,3,3,2,2,2,2,2,2],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+    {name:'User 8B',role:'Analyst',email:'user8b@company8.com',logins:5,jobs:1,lastLogin:'May 2',output:'Workbook',dest:'My PC',monthlyHits:[70,68,65,62,59,56,53,50,47,44,41],monthlyLogins:[1,1,1,1,1,1,1,1,1,1,1],monthlyPCs:[1,1,1,1,1,1,1,1,1,1,1]},
+  ]},
+  {id:9,co:'Company 9',csm:'CSM 3',am:'Account Manager 3',monthlyHits:[260,230,198,168,140,115,92,72,55,40,28],users:[
+    {name:'User 9A',role:'Analyst',email:'user9a@company9.com',logins:5,jobs:2,lastLogin:'Apr 15',output:'Excel',dest:'SFTP',monthlyHits:[160,142,122,103,85,70,56,44,34,25,17],monthlyLogins:[3,3,2,2,2,1,1,1,1,0,0],monthlyPCs:[2,2,2,1,1,1,1,1,1,0,0]},
+    {name:'User 9B',role:'Portfolio Manager',email:'user9b@company9.com',logins:1,jobs:0,lastLogin:'Mar 8',output:'—',dest:'—',monthlyHits:[100,88,76,65,55,45,36,28,21,15,11],monthlyLogins:[2,2,1,1,1,1,0,0,0,0,0],monthlyPCs:[1,1,1,1,1,1,0,0,0,0,0]},
+    {name:'User 9C',role:'Data Analyst',email:'user9c@company9.com',logins:0,jobs:0,lastLogin:'Dec 20',output:'—',dest:'—',monthlyHits:[0,0,0,0,0,0,0,0,0,0,0],monthlyLogins:[0,0,0,0,0,0,0,0,0,0,0],monthlyPCs:[0,0,0,0,0,0,0,0,0,0,0]},
+  ]},
+];
+
+const csmHitHistory={
+  'CSM 1':[320,340,360,380,400,420,430,450,440,430,420],
+  'CSM 2':[280,270,260,250,240,230,220,215,210,205,200],
+  'CSM 3':[180,170,158,145,132,120,108,95,85,75,65],
+};
+
+let selAcctId=1, selUserId=0, acctTab='all', THRESH=0.25;
+
 function amF(){return document.getElementById('amF').value;}
 function csmF(){return document.getElementById('csmF').value;}
 function getTF(){const v=document.getElementById('tfF').value;if(v==='custom'){const f=new Date(document.getElementById('dateFrom').value),t=new Date(document.getElementById('dateTo').value);return Math.max(1,Math.min(11,Math.round((t-f)/(1000*60*60*24*30.5))));}return parseInt(v);}
 function onTfChange(){document.getElementById('customRange').classList.toggle('show',document.getElementById('tfF').value==='custom');applyAll();}
 function sliceN(a){return a.slice(-getTF());}
 function sumN(a){return sliceN(a).reduce((s,v)=>s+v,0);}
-function uSt(u){const d=sliceN(u.monthlyHits);if(d.slice(-2).reduce((s,v)=>s+v,0)===0)return 'inactive';const h=Math.floor(d.length/2);if(h<1)return 'active';const f=d.slice(0,h).reduce((s,v)=>s+v,0),s=d.slice(h).reduce((s,v)=>s+v,0);if(f>0&&(f-s)/f>=THRESH)return 'declining';return 'active';}
+
+function uSt(u){
+  const d=sliceN(u.monthlyHits);
+  if(d.slice(-2).reduce((s,v)=>s+v,0)===0) return 'inactive';
+  const h=Math.floor(d.length/2);
+  if(h<1) return 'active';
+  const f=d.slice(0,h).reduce((s,v)=>s+v,0), s=d.slice(h).reduce((s,v)=>s+v,0);
+  if(f>0&&(f-s)/f>=THRESH) return 'declining';
+  return 'active';
+}
 function uBadge(u){const s=uSt(u);if(s==='inactive')return '<span class="badge b-red">Inactive</span>';if(s==='declining')return '<span class="badge b-amber">Declining</span>';return '<span class="badge b-green">Active</span>';}
 function aSt(a){const ss=a.users.map(u=>uSt(u));if(ss.every(s=>s==='inactive'))return 'critical';if(ss.some(s=>s==='inactive')||ss.filter(s=>s==='declining').length>=Math.ceil(a.users.length/2))return 'low';return 'healthy';}
 function aPct(a){return Math.min(100,Math.round(sumN(a.monthlyHits)/700*100));}
 function updateThreshold(val){THRESH=parseInt(val)/100;document.getElementById('threshVal').textContent=val+'%';document.getElementById('threshDeclLabel').textContent=val;applyAll();}
 function sparkBars(data,color){const max=Math.max(...data,1);return data.map(v=>`<div style="width:6px;height:${Math.max(2,Math.round((v/max)*20))}px;background:${color};display:inline-block;margin-right:1px;vertical-align:bottom;border-radius:1px 1px 0 0;"></div>`).join('');}
 
-function renderKPIs(){let rows=accounts.filter(a=>{if(amF()&&a.am!==amF())return false;if(csmF()&&a.csm!==csmF())return false;return true;});const th=rows.reduce((s,a)=>s+sumN(a.monthlyHits),0),allU=rows.flatMap(a=>a.users),act=allU.filter(u=>uSt(u)==='active').length,ina=allU.filter(u=>uSt(u)==='inactive').length,dec=allU.filter(u=>uSt(u)==='declining').length,risk=rows.filter(a=>aSt(a)!=='healthy').length,pct=Math.round(THRESH*100);document.getElementById('kpiStrip').innerHTML=`<div class="kpi"><div class="kpi-label">Total hits</div><div class="kpi-val">${th.toLocaleString()}</div><div class="kpi-sub kup">↑ +8% vs prior</div></div><div class="kpi"><div class="kpi-label">Licensed users</div><div class="kpi-val">${allU.length}</div><div class="kpi-sub">${act} active</div></div><div class="kpi"><div class="kpi-label"><span class="tip-wrap">Inactive<span class="tip-icon">?</span><span class="tip-box">Zero hits in last 2 months. Computed from usage data.</span></span></div><div class="kpi-val">${ina}</div><div class="kpi-sub kdown">Zero hits, 2 mo</div></div><div class="kpi"><div class="kpi-label"><span class="tip-wrap">Declining<span class="tip-icon">?</span><span class="tip-box">Hits down ≥${pct}% first vs second half of period.</span></span></div><div class="kpi-val">${dec}</div><div class="kpi-sub kwarn">Down ≥${pct}%</div></div><div class="kpi"><div class="kpi-label"><span class="tip-wrap">At risk<span class="tip-icon">?</span><span class="tip-box">Account has declining or inactive users. Computed from hit trends.</span></span></div><div class="kpi-val">${risk}</div><div class="kpi-sub kwarn">Accounts flagged</div></div><div class="kpi"><div class="kpi-label">Avg file size</div><div class="kpi-val">2.4<span style="font-size:14px;"> MB</span></div><div class="kpi-sub">Excel 68%</div></div>`;}
+function renderKPIs(){
+  let rows=accounts.filter(a=>{if(amF()&&a.am!==amF())return false;if(csmF()&&a.csm!==csmF())return false;return true;});
+  const th=rows.reduce((s,a)=>s+sumN(a.monthlyHits),0),allU=rows.flatMap(a=>a.users);
+  const act=allU.filter(u=>uSt(u)==='active').length,ina=allU.filter(u=>uSt(u)==='inactive').length;
+  const dec=allU.filter(u=>uSt(u)==='declining').length,risk=rows.filter(a=>aSt(a)!=='healthy').length;
+  const pct=Math.round(THRESH*100);
+  document.getElementById('kpiStrip').innerHTML=`
+    <div class="kpi"><div class="kpi-label">Total hits</div><div class="kpi-val">${th.toLocaleString()}</div><div class="kpi-sub kup">↑ +8% vs prior</div></div>
+    <div class="kpi"><div class="kpi-label">Licensed users</div><div class="kpi-val">${allU.length}</div><div class="kpi-sub">${act} active</div></div>
+    <div class="kpi"><div class="kpi-label"><span class="tip-wrap">Inactive<span class="tip-icon">?</span><span class="tip-box">Zero hits in last 2 months. Computed from usage data.</span></span></div><div class="kpi-val">${ina}</div><div class="kpi-sub kdown">Zero hits, 2 mo</div></div>
+    <div class="kpi"><div class="kpi-label"><span class="tip-wrap">Declining<span class="tip-icon">?</span><span class="tip-box">Hits down ≥${pct}% first vs second half of period.</span></span></div><div class="kpi-val">${dec}</div><div class="kpi-sub kwarn">Down ≥${pct}%</div></div>
+    <div class="kpi"><div class="kpi-label"><span class="tip-wrap">At risk<span class="tip-icon">?</span><span class="tip-box">Account has declining or inactive users. Computed from usage trends.</span></span></div><div class="kpi-val">${risk}</div><div class="kpi-sub kwarn">Accounts flagged</div></div>
+    <div class="kpi"><div class="kpi-label">Avg file size</div><div class="kpi-val">2.4<span style="font-size:14px;"> MB</span></div><div class="kpi-sub">Excel 68%</div></div>`;
+}
 
-function renderTrendChart(){const n=getTF(),labels=MONTHS_ALL.slice(-n);document.getElementById('trendPeriod').textContent=`last ${n} month${n>1?'s':''}`;drawLineChart('trendChart',labels,[{data:HITS_ALL.slice(-n),color:'#0033A0',fill:true,fillColor:'rgba(0,51,160,0.06)'},{data:LOGINS_ALL.slice(-n),color:'#006633',dash:[5,3]},{data:JOBS_ALL.slice(-n),color:'#a00000',dash:[2,3]}]);}
+function renderTrendChart(){
+  const n=getTF(),labels=MONTHS_ALL.slice(-n);
+  document.getElementById('trendPeriod').textContent=`last ${n} month${n>1?'s':''}`;
+  drawLineChart('trendChart',labels,[
+    {data:HITS_ALL.slice(-n),color:'#2c5f8a',fill:true,fillColor:'rgba(44,95,138,0.07)'},
+    {data:LOGINS_ALL.slice(-n),color:'#1a6b3a',dash:[5,3]},
+    {data:JOBS_ALL.slice(-n),color:'#8b1a1a',dash:[2,3]}
+  ]);
+}
 
-function renderCSMTable(){const amMap={Nolan:'AM 1, 2',Dan:'AM 1–3',Pam:'AM 2, 3'};document.getElementById('csmTbl').innerHTML=['Nolan','Dan','Pam'].map(csm=>{let rows=accounts.filter(a=>a.csm===csm);if(amF())rows=rows.filter(a=>a.am===amF());if(!rows.length)return '';const risk=rows.filter(a=>aSt(a)!=='healthy').length,ina=rows.flatMap(a=>a.users).filter(u=>uSt(u)==='inactive').length,dec=rows.flatMap(a=>a.users).filter(u=>uSt(u)==='declining').length,totalH=rows.reduce((s,a)=>s+sumN(a.monthlyHits),0),hpa=rows.length?Math.round(totalH/rows.length).toLocaleString():'—',hist=sliceN(csmHitHistory[csm]),up=hist[hist.length-1]>=hist[0],bars=sparkBars(hist,up?'#006633':'#a00000');return `<tr><td style="font-weight:600;">${csm}</td><td style="color:var(--g600);font-size:10px;">${amMap[csm]}</td><td>${rows.length}</td><td><span class="badge ${risk===0?'b-green':risk<=1?'b-amber':'b-red'}">${risk}</span></td><td><span class="badge ${ina===0?'b-green':ina<=2?'b-amber':'b-red'}">${ina}</span></td><td><span class="badge ${dec===0?'b-green':dec<=2?'b-amber':'b-red'}">${dec}</span></td><td style="font-family:var(--font-mono);">${hpa}</td><td style="font-family:var(--font-mono);">${totalH.toLocaleString()}</td><td><div style="display:flex;align-items:flex-end;height:24px;">${bars}</div></td></tr>`;}).join('');}
+function renderCSMTable(){
+  const amMap={'CSM 1':'AM 1, 2','CSM 2':'AM 1–3','CSM 3':'AM 2, 3'};
+  document.getElementById('csmTbl').innerHTML=['CSM 1','CSM 2','CSM 3'].map(csm=>{
+    let rows=accounts.filter(a=>a.csm===csm);
+    if(amF()) rows=rows.filter(a=>a.am===amF());
+    if(!rows.length) return '';
+    const risk=rows.filter(a=>aSt(a)!=='healthy').length;
+    const ina=rows.flatMap(a=>a.users).filter(u=>uSt(u)==='inactive').length;
+    const dec=rows.flatMap(a=>a.users).filter(u=>uSt(u)==='declining').length;
+    const totalH=rows.reduce((s,a)=>s+sumN(a.monthlyHits),0);
+    const hpa=rows.length?Math.round(totalH/rows.length).toLocaleString():'—';
+    const hist=sliceN(csmHitHistory[csm]),up=hist[hist.length-1]>=hist[0];
+    const bars=sparkBars(hist,up?'#1a6b3a':'#8b1a1a');
+    return `<tr>
+      <td style="font-weight:600;">${csm}</td>
+      <td style="color:var(--g600);font-size:10px;">${amMap[csm]}</td>
+      <td>${rows.length}</td>
+      <td><span class="badge ${risk===0?'b-green':risk<=1?'b-amber':'b-red'}">${risk}</span></td>
+      <td><span class="badge ${ina===0?'b-green':ina<=2?'b-amber':'b-red'}">${ina}</span></td>
+      <td><span class="badge ${dec===0?'b-green':dec<=2?'b-amber':'b-red'}">${dec}</span></td>
+      <td style="font-family:var(--font-mono);">${hpa}</td>
+      <td style="font-family:var(--font-mono);">${totalH.toLocaleString()}</td>
+      <td><div style="display:flex;align-items:flex-end;height:24px;">${bars}</div></td>
+    </tr>`;
+  }).join('');
+}
 
-function renderDeclining(){let rows=accounts.filter(a=>{if(amF()&&a.am!==amF())return false;if(csmF()&&a.csm!==csmF())return false;return true;});const all=[];rows.forEach(a=>a.users.forEach(u=>{const d=sliceN(u.monthlyHits),h=Math.floor(d.length/2);if(h<1)return;const f=d.slice(0,h).reduce((s,v)=>s+v,0),s2=d.slice(h).reduce((s,v)=>s+v,0);if(f===0)return;const drop=(f-s2)/f;if(drop>0)all.push({u,a,drop,d,st:uSt(u)});}));all.sort((a,b)=>b.drop-a.drop);document.getElementById('declTbl').innerHTML=all.slice(0,9).map(({u,a,drop,d,st})=>{const max=Math.max(...d,1),bars=d.map(v=>`<div style="width:6px;height:${Math.max(2,Math.round((v/max)*18))}px;background:${st==='inactive'?'#a00000':'#7a4800'};display:inline-block;margin-right:1px;vertical-align:bottom;border-radius:1px 1px 0 0;"></div>`).join('');return `<tr><td style="font-weight:600;">${u.name}</td><td>${a.co}</td><td style="color:var(--g600);">${a.csm}</td><td style="font-size:10px;color:var(--g600);">${a.am}</td><td style="font-size:10px;color:var(--g600);">${u.role}</td><td style="font-family:var(--font-mono);">${sumN(u.monthlyHits).toLocaleString()}</td><td style="font-family:var(--font-mono);">${sumN(u.monthlyLogins)}</td><td style="color:var(--g600);">${u.lastLogin}</td><td><div style="display:flex;align-items:flex-end;height:20px;">${bars}</div></td><td><span class="badge ${st==='inactive'?'b-red':'b-amber'}">-${Math.round(drop*100)}%</span></td><td>${uBadge(u)}</td></tr>`;}).join('')||'<tr><td colspan="11" style="text-align:center;color:var(--g400);padding:12px;">No declining users in this period</td></tr>';}
+function renderDeclining(){
+  let rows=accounts.filter(a=>{if(amF()&&a.am!==amF())return false;if(csmF()&&a.csm!==csmF())return false;return true;});
+  const all=[];
+  rows.forEach(a=>a.users.forEach(u=>{
+    const d=sliceN(u.monthlyHits),h=Math.floor(d.length/2);
+    if(h<1) return;
+    const f=d.slice(0,h).reduce((s,v)=>s+v,0),s2=d.slice(h).reduce((s,v)=>s+v,0);
+    if(f===0) return;
+    const drop=(f-s2)/f;
+    if(drop>0) all.push({u,a,drop,d,st:uSt(u)});
+  }));
+  all.sort((a,b)=>b.drop-a.drop);
+  document.getElementById('declTbl').innerHTML=all.slice(0,9).map(({u,a,drop,d,st})=>{
+    const max=Math.max(...d,1);
+    const bars=d.map(v=>`<div style="width:6px;height:${Math.max(2,Math.round((v/max)*18))}px;background:${st==='inactive'?'#8b1a1a':'#7a4800'};display:inline-block;margin-right:1px;vertical-align:bottom;border-radius:1px 1px 0 0;"></div>`).join('');
+    return `<tr>
+      <td style="font-weight:600;">${u.name}</td><td>${a.co}</td>
+      <td style="color:var(--g600);">${a.csm}</td>
+      <td style="font-size:10px;color:var(--g600);">${a.am}</td>
+      <td style="font-size:10px;color:var(--g600);">${u.role}</td>
+      <td style="font-family:var(--font-mono);">${sumN(u.monthlyHits).toLocaleString()}</td>
+      <td style="font-family:var(--font-mono);">${sumN(u.monthlyLogins)}</td>
+      <td style="color:var(--g600);">${u.lastLogin}</td>
+      <td><div style="display:flex;align-items:flex-end;height:20px;">${bars}</div></td>
+      <td><span class="badge ${st==='inactive'?'b-red':'b-amber'}">-${Math.round(drop*100)}%</span></td>
+      <td>${uBadge(u)}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="11" style="text-align:center;color:var(--g400);padding:12px;">No declining users in this period</td></tr>';
+}
 
-function renderRoster(){let rows=accounts.filter(a=>{if(amF()&&a.am!==amF())return false;if(csmF()&&a.csm!==csmF())return false;return true;});let html='';rows.forEach(a=>{const ast=aSt(a),astB=ast==='critical'?'<span class="badge b-red">Critical</span>':ast==='low'?'<span class="badge b-amber">At risk</span>':'<span class="badge b-green">Healthy</span>';a.users.forEach((u,i)=>{html+=`<tr>${i===0?`<td rowspan="${a.users.length}" style="font-weight:600;vertical-align:top;padding-top:9px;white-space:normal;word-break:break-word;">${a.co}</td><td rowspan="${a.users.length}" style="vertical-align:top;padding-top:9px;">${astB}</td><td rowspan="${a.users.length}" style="color:var(--g600);vertical-align:top;padding-top:9px;">${a.csm}</td><td rowspan="${a.users.length}" style="font-size:10px;color:var(--g600);vertical-align:top;padding-top:9px;white-space:normal;">${a.am}</td>`:''}<td><div style="display:flex;align-items:center;gap:6px;">${av(u.name,i)}<span style="font-weight:500;">${u.name}</span></div></td><td style="font-size:10px;color:var(--g600);">${u.role}</td><td>${uBadge(u)}</td><td style="font-family:var(--font-mono);">${sumN(u.monthlyHits).toLocaleString()}</td><td style="font-family:var(--font-mono);">${sumN(u.monthlyLogins)}</td><td style="color:var(--g600);">${u.lastLogin}</td></tr>`;});});document.getElementById('rosterTbody').innerHTML=html||'<tr><td colspan="10" style="text-align:center;color:var(--g400);padding:14px;">No accounts match filters</td></tr>';}
+function renderRoster(){
+  let rows=accounts.filter(a=>{if(amF()&&a.am!==amF())return false;if(csmF()&&a.csm!==csmF())return false;return true;});
+  let html='';
+  rows.forEach(a=>{
+    const ast=aSt(a),astB=ast==='critical'?'<span class="badge b-red">Critical</span>':ast==='low'?'<span class="badge b-amber">At risk</span>':'<span class="badge b-green">Healthy</span>';
+    a.users.forEach((u,i)=>{
+      html+=`<tr>
+        ${i===0?`<td rowspan="${a.users.length}" style="font-weight:600;vertical-align:top;padding-top:9px;white-space:normal;word-break:break-word;">${a.co}</td>
+        <td rowspan="${a.users.length}" style="vertical-align:top;padding-top:9px;">${astB}</td>
+        <td rowspan="${a.users.length}" style="color:var(--g600);vertical-align:top;padding-top:9px;">${a.csm}</td>
+        <td rowspan="${a.users.length}" style="font-size:10px;color:var(--g600);vertical-align:top;padding-top:9px;white-space:normal;">${a.am}</td>`:''}
+        <td><div style="display:flex;align-items:center;gap:6px;">${av(u.name,i)}<span style="font-weight:500;">${u.name}</span></div></td>
+        <td style="font-size:10px;color:var(--g600);">${u.role}</td>
+        <td>${uBadge(u)}</td>
+        <td style="font-family:var(--font-mono);">${sumN(u.monthlyHits).toLocaleString()}</td>
+        <td style="font-family:var(--font-mono);">${sumN(u.monthlyLogins)}</td>
+        <td style="color:var(--g600);">${u.lastLogin}</td>
+      </tr>`;
+    });
+  });
+  document.getElementById('rosterTbody').innerHTML=html||'<tr><td colspan="10" style="text-align:center;color:var(--g400);padding:14px;">No accounts match filters</td></tr>';
+}
 
-function filteredAccts(){let r=[...accounts];if(amF())r=r.filter(a=>a.am===amF());if(csmF())r=r.filter(a=>a.csm===csmF());if(acctTab==='risk')r=r.filter(a=>aSt(a)!=='healthy');if(acctTab==='inactive')r=r.filter(a=>a.users.some(u=>uSt(u)==='inactive'));return r.sort((a,b)=>sumN(b.monthlyHits)-sumN(a.monthlyHits));}
+function filteredAccts(){
+  let r=[...accounts];
+  if(amF()) r=r.filter(a=>a.am===amF());
+  if(csmF()) r=r.filter(a=>a.csm===csmF());
+  if(acctTab==='risk') r=r.filter(a=>aSt(a)!=='healthy');
+  if(acctTab==='inactive') r=r.filter(a=>a.users.some(u=>uSt(u)==='inactive'));
+  return r.sort((a,b)=>sumN(b.monthlyHits)-sumN(a.monthlyHits));
+}
 
-function renderAccounts(){document.getElementById('acctTbody').innerHTML=filteredAccts().map(a=>{const pct=aPct(a),cls=pct>=60?'sh':pct>=25?'sm':'sl',sel=selAcctId===a.id?'selected':'',ast=aSt(a),dot=ast!=='healthy'?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${ast==='critical'?'#a00000':'#7a4800'};margin-right:5px;vertical-align:middle;"></span>`:'';return `<tr class="acct-row ${sel}" onclick="selectAccount(${a.id},true)"><td style="font-weight:600;font-size:11px;white-space:normal;">${dot}${a.co}</td><td style="color:var(--g600);font-size:10px;">${a.csm}</td><td><div class="spark"><div class="spark-fill ${cls}" style="width:${pct}%"></div></div></td></tr>`;}).join('')||'<tr><td colspan="3" style="text-align:center;color:var(--g400);font-size:11px;padding:10px;">No accounts match</td></tr>';}
+function renderAccounts(){
+  document.getElementById('acctTbody').innerHTML=filteredAccts().map(a=>{
+    const pct=aPct(a),cls=pct>=60?'sh':pct>=25?'sm':'sl',sel=selAcctId===a.id?'selected':'';
+    const ast=aSt(a),dot=ast!=='healthy'?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${ast==='critical'?'#8b1a1a':'#7a4800'};margin-right:5px;vertical-align:middle;"></span>`:'';
+    return `<tr class="acct-row ${sel}" onclick="selectAccount(${a.id},true)">
+      <td style="font-weight:600;font-size:11px;white-space:normal;">${dot}${a.co}</td>
+      <td style="color:var(--g600);font-size:10px;">${a.csm}</td>
+      <td><div class="spark"><div class="spark-fill ${cls}" style="width:${pct}%"></div></div></td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="3" style="text-align:center;color:var(--g400);font-size:11px;padding:10px;">No accounts match</td></tr>';
+}
 
-function selectAccount(id,resetUser){selAcctId=id;if(resetUser)selUserId=0;renderAccounts();const a=accounts.find(x=>x.id===id);if(!a)return;const th=sumN(a.monthlyHits),actU=a.users.filter(u=>uSt(u)==='active').length,inU=a.users.filter(u=>uSt(u)==='inactive').length,decU=a.users.filter(u=>uSt(u)==='declining').length;document.getElementById('rightPane').innerHTML=`<div><div style="margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--g200);"><div style="font-size:15px;font-weight:600;">${a.co}</div><div style="font-size:10px;color:var(--g600);margin-top:3px;">CSM: ${a.csm} · ${a.am}</div></div><div class="ms-grid"><div class="ms"><div class="msl">Hits</div><div class="msv">${th.toLocaleString()}</div></div><div class="ms"><div class="msl">Active</div><div class="msv" style="color:var(--sg);">${actU}</div></div><div class="ms"><div class="msl">Declining</div><div class="msv" style="color:var(--sa);">${decU}</div></div><div class="ms"><div class="msl">Inactive</div><div class="msv" style="color:var(--sr);">${inU}</div></div></div><div style="font-size:9px;font-weight:600;color:var(--lb);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Users — click for time series</div><div style="overflow-x:auto;"><table style="table-layout:auto;min-width:500px;"><thead><tr><th style="width:22%;">Name</th><th style="width:15%;">Role</th><th>Hits</th><th>Logins</th><th>Jobs</th><th style="width:13%;">Share</th><th>Status</th><th>Last login</th></tr></thead><tbody id="userTbody">${a.users.map((u,i)=>{const uH=sumN(u.monthlyHits),sp=th>0?Math.round((uH/th)*100):0;return `<tr class="user-row${selUserId===i?' active':''}" id="urow-${i}" onclick="selectUser(${id},${i})"><td><div style="display:flex;align-items:center;gap:6px;">${av(u.name,i)}<span style="font-weight:600;">${u.name}</span></div></td><td style="font-size:10px;color:var(--g600);">${u.role}</td><td style="font-family:var(--font-mono);">${uH.toLocaleString()}</td><td style="font-family:var(--font-mono);">${sumN(u.monthlyLogins)}</td><td style="font-family:var(--font-mono);">${u.jobs}</td><td><div style="display:flex;align-items:center;gap:4px;"><div class="spark" style="width:34px;"><div class="spark-fill sh" style="width:${sp}%"></div></div><span style="font-size:10px;color:var(--g400);">${sp}%</span></div></td><td>${uBadge(u)}</td><td style="font-size:10px;color:var(--g600);">${u.lastLogin}</td></tr>`;}).join('')}</tbody></table></div><div id="userDetail"></div></div>`;selectUser(id,selUserId);}
+function selectAccount(id,resetUser){
+  selAcctId=id;if(resetUser) selUserId=0;
+  renderAccounts();
+  const a=accounts.find(x=>x.id===id);if(!a) return;
+  const th=sumN(a.monthlyHits),actU=a.users.filter(u=>uSt(u)==='active').length;
+  const inU=a.users.filter(u=>uSt(u)==='inactive').length,decU=a.users.filter(u=>uSt(u)==='declining').length;
+  document.getElementById('rightPane').innerHTML=`
+    <div>
+      <div style="margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--g200);">
+        <div style="font-size:15px;font-weight:600;">${a.co}</div>
+        <div style="font-size:10px;color:var(--g600);margin-top:3px;">CSM: ${a.csm} · ${a.am}</div>
+      </div>
+      <div class="ms-grid">
+        <div class="ms"><div class="msl">Hits</div><div class="msv">${th.toLocaleString()}</div></div>
+        <div class="ms"><div class="msl">Active</div><div class="msv" style="color:var(--green);">${actU}</div></div>
+        <div class="ms"><div class="msl">Declining</div><div class="msv" style="color:var(--amber);">${decU}</div></div>
+        <div class="ms"><div class="msl">Inactive</div><div class="msv" style="color:var(--red);">${inU}</div></div>
+      </div>
+      <div style="font-size:9px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Users — click for time series</div>
+      <div style="overflow-x:auto;">
+        <table style="table-layout:auto;min-width:500px;">
+          <thead><tr><th style="width:22%;">Name</th><th style="width:15%;">Role</th><th>Hits</th><th>Logins</th><th>Jobs</th><th style="width:13%;">Share</th><th>Status</th><th>Last login</th></tr></thead>
+          <tbody id="userTbody">
+            ${a.users.map((u,i)=>{
+              const uH=sumN(u.monthlyHits),sp=th>0?Math.round((uH/th)*100):0;
+              return `<tr class="user-row${selUserId===i?' active':''}" id="urow-${i}" onclick="selectUser(${id},${i})">
+                <td><div style="display:flex;align-items:center;gap:6px;">${av(u.name,i)}<span style="font-weight:600;">${u.name}</span></div></td>
+                <td style="font-size:10px;color:var(--g600);">${u.role}</td>
+                <td style="font-family:var(--font-mono);">${uH.toLocaleString()}</td>
+                <td style="font-family:var(--font-mono);">${sumN(u.monthlyLogins)}</td>
+                <td style="font-family:var(--font-mono);">${u.jobs}</td>
+                <td><div style="display:flex;align-items:center;gap:4px;"><div class="spark" style="width:34px;"><div class="spark-fill sh" style="width:${sp}%"></div></div><span style="font-size:10px;color:var(--g400);">${sp}%</span></div></td>
+                <td>${uBadge(u)}</td>
+                <td style="font-size:10px;color:var(--g600);">${u.lastLogin}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div id="userDetail"></div>
+    </div>`;
+  selectUser(id,selUserId);
+}
 
-function selectUser(acctId,userIdx){selUserId=userIdx;document.querySelectorAll('.user-row').forEach(r=>r.classList.remove('active'));const row=document.getElementById('urow-'+userIdx);if(row)row.classList.add('active');const a=accounts.find(x=>x.id===acctId),u=a.users[userIdx],n=getTF(),labels=MONTHS_ALL.slice(-n),hits=sliceN(u.monthlyHits),logins=sliceN(u.monthlyLogins),pcs=sliceN(u.monthlyPCs),cid='uc-'+acctId+'-'+userIdx;document.getElementById('userDetail').innerHTML=`<div class="user-ts-panel"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">${av(u.name,userIdx)}<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;">${u.name} <span style="font-weight:400;color:var(--g600);">· ${u.role}</span></div><div style="font-size:10px;color:var(--g600);">${u.email} · ${u.output} → ${u.dest}</div></div>${uBadge(u)}</div><div style="display:flex;gap:16px;margin-bottom:8px;font-size:10px;color:var(--g600);"><span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#0033A0;display:inline-block;"></span>Hits</span><span style="display:flex;align-items:center;gap:4px;"><span style="width:16px;height:0;border-top:2px dashed #006633;display:inline-block;"></span>Logins</span><span style="display:flex;align-items:center;gap:4px;"><span style="width:16px;height:0;border-top:2px dotted #7a4800;display:inline-block;"></span>PCs</span></div><div class="chart-wrap"><canvas id="${cid}" height="140" style="width:100%;display:block;"></canvas></div><div style="margin-top:12px;overflow-x:auto;"><table style="table-layout:auto;min-width:${n*52+100}px;font-size:10px;"><thead><tr><th style="width:60px;">Metric</th>${labels.map(l=>`<th style="text-align:right;">${l}</th>`).join('')}<th style="text-align:right;">Total</th></tr></thead><tbody><tr><td style="font-weight:600;">Hits</td>${hits.map(v=>`<td style="text-align:right;font-family:var(--font-mono);">${v}</td>`).join('')}<td style="text-align:right;font-weight:600;font-family:var(--font-mono);">${hits.reduce((s,v)=>s+v,0)}</td></tr><tr><td style="font-weight:600;">Logins</td>${logins.map(v=>`<td style="text-align:right;font-family:var(--font-mono);">${v}</td>`).join('')}<td style="text-align:right;font-weight:600;font-family:var(--font-mono);">${logins.reduce((s,v)=>s+v,0)}</td></tr><tr><td style="font-weight:600;">PCs</td>${pcs.map(v=>`<td style="text-align:right;font-family:var(--font-mono);">${v}</td>`).join('')}<td style="text-align:right;font-weight:600;font-family:var(--font-mono);">${Math.max(...pcs)}<span style="font-size:8px;color:var(--g400);"> max</span></td></tr></tbody></table></div></div>`;setTimeout(()=>drawLineChart(cid,labels,[{data:hits,color:'#0033A0',fill:true,fillColor:'rgba(0,51,160,0.07)'},{data:logins,color:'#006633',dash:[5,3]},{data:pcs,color:'#7a4800',dash:[2,2]}]),50);}
+function selectUser(acctId,userIdx){
+  selUserId=userIdx;
+  document.querySelectorAll('.user-row').forEach(r=>r.classList.remove('active'));
+  const row=document.getElementById('urow-'+userIdx);if(row) row.classList.add('active');
+  const a=accounts.find(x=>x.id===acctId),u=a.users[userIdx];
+  const n=getTF(),labels=MONTHS_ALL.slice(-n);
+  const hits=sliceN(u.monthlyHits),logins=sliceN(u.monthlyLogins),pcs=sliceN(u.monthlyPCs);
+  const cid='uc-'+acctId+'-'+userIdx;
+  document.getElementById('userDetail').innerHTML=`
+    <div class="user-ts-panel">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        ${av(u.name,userIdx)}
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:600;">${u.name} <span style="font-weight:400;color:var(--g600);">· ${u.role}</span></div>
+          <div style="font-size:10px;color:var(--g600);">${u.email} · ${u.output} → ${u.dest}</div>
+        </div>
+        ${uBadge(u)}
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:8px;font-size:10px;color:var(--g600);">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:var(--primary);display:inline-block;"></span>Hits</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:16px;height:0;border-top:2px dashed var(--green);display:inline-block;"></span>Logins</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:16px;height:0;border-top:2px dotted var(--amber);display:inline-block;"></span>PCs</span>
+      </div>
+      <canvas id="${cid}" height="140" style="width:100%;display:block;"></canvas>
+      <div style="margin-top:12px;overflow-x:auto;">
+        <table style="table-layout:auto;min-width:${n*52+100}px;font-size:10px;">
+          <thead><tr><th style="width:60px;">Metric</th>${labels.map(l=>`<th style="text-align:right;">${l}</th>`).join('')}<th style="text-align:right;">Total</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:600;">Hits</td>${hits.map(v=>`<td style="text-align:right;font-family:var(--font-mono);">${v}</td>`).join('')}<td style="text-align:right;font-weight:600;font-family:var(--font-mono);">${hits.reduce((s,v)=>s+v,0)}</td></tr>
+            <tr><td style="font-weight:600;">Logins</td>${logins.map(v=>`<td style="text-align:right;font-family:var(--font-mono);">${v}</td>`).join('')}<td style="text-align:right;font-weight:600;font-family:var(--font-mono);">${logins.reduce((s,v)=>s+v,0)}</td></tr>
+            <tr><td style="font-weight:600;">PCs</td>${pcs.map(v=>`<td style="text-align:right;font-family:var(--font-mono);">${v}</td>`).join('')}<td style="text-align:right;font-weight:600;font-family:var(--font-mono);">${Math.max(...pcs)}<span style="font-size:8px;color:var(--g400);"> max</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  setTimeout(()=>drawLineChart(cid,labels,[
+    {data:hits,color:'#2c5f8a',fill:true,fillColor:'rgba(44,95,138,0.07)'},
+    {data:logins,color:'#1a6b3a',dash:[5,3]},
+    {data:pcs,color:'#7a4800',dash:[2,2]}
+  ]),50);
+}
 
-function setAcctTab(f,btn){acctTab=f;document.querySelectorAll('.section-tab .tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');selAcctId=1;selUserId=0;renderAccounts();selectAccount(1,true);}
+function setAcctTab(f,btn){
+  acctTab=f;
+  document.querySelectorAll('.section-tab .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selAcctId=1;selUserId=0;
+  renderAccounts();selectAccount(1,true);
+}
 
-function getSortedJobRows(status){const field=document.getElementById('jobSortField').value,dir=document.getElementById('jobSortDir').value;let rows=jobRowsRaw.filter(r=>r.status===status);rows.sort((a,b)=>{let va=a[field],vb=b[field];if(field==='jobs'){va=+va;vb=+vb;}else{va=String(va).toLowerCase();vb=String(vb).toLowerCase();}if(va<vb)return dir==='asc'?-1:1;if(va>vb)return dir==='asc'?1:-1;return 0;});return rows;}
-function setSortField(field){const sel=document.getElementById('jobSortField');if(sel.value===field){const dir=document.getElementById('jobSortDir');dir.value=dir.value==='asc'?'desc':'asc';}else sel.value=field;renderAllJobCols();}
-function renderAllJobCols(){const configs=[{key:'done',label:'Completed',cls:'b-green',color:'var(--sg)'},{key:'failed',label:'Failed',cls:'b-red',color:'var(--sr)'},{key:'pending',label:'Pending',cls:'b-amber',color:'var(--sa)'}],sf=document.getElementById('jobSortField').value,sd=document.getElementById('jobSortDir').value,fl={co:'Account',csm:'CSM',name:'User',jobs:'Jobs',output:'Output',dest:'Dest.',lastRun:'Last run'};document.getElementById('jobStatusGrid').innerHTML=configs.map(cfg=>{const rows=getSortedJobRows(cfg.key),total=rows.reduce((s,r)=>s+r.jobs,0),headers=['co','csm','name','jobs','output','dest','lastRun'].map(c=>{const active=c===sf,arrow=active?(sd==='asc'?'↑':'↓'):'';return `<th class="sortable" onclick="setSortField('${c}')" style="${active?'background:var(--lb-light);':''}">${fl[c]}<span style="margin-left:3px;font-size:9px;">${arrow}</span></th>`;}).join(''),bodyRows=rows.map(r=>`<tr><td style="font-weight:600;">${r.co}</td><td style="color:var(--g600);">${r.csm}</td><td>${r.name}</td><td style="font-family:var(--font-mono);font-weight:600;">${r.jobs}</td><td>${r.output}</td><td>${r.dest}</td><td style="color:var(--g600);">${r.lastRun.slice(5).replace('-','/')}</td></tr>`).join('');return `<div class="job-col"><div style="display:flex;align-items:baseline;gap:8px;padding:11px 13px;border-bottom:2px solid var(--lb);background:var(--lb-pale);"><span style="font-size:22px;font-weight:300;color:${cfg.color};font-family:var(--font-mono);">${total}</span><span class="badge ${cfg.cls}">${cfg.label}</span><span style="font-size:10px;color:var(--g400);margin-left:4px;">${rows.length} records</span></div><table style="table-layout:auto;min-width:280px;"><thead><tr>${headers}</tr></thead><tbody>${bodyRows}</tbody></table></div>`;}).join('');}
+function getSortedJobRows(status){
+  const field=document.getElementById('jobSortField').value,dir=document.getElementById('jobSortDir').value;
+  let rows=jobRowsRaw.filter(r=>r.status===status);
+  rows.sort((a,b)=>{
+    let va=a[field],vb=b[field];
+    if(field==='jobs'){va=+va;vb=+vb;}else{va=String(va).toLowerCase();vb=String(vb).toLowerCase();}
+    if(va<vb) return dir==='asc'?-1:1;
+    if(va>vb) return dir==='asc'?1:-1;
+    return 0;
+  });
+  return rows;
+}
+function setSortField(field){
+  const sel=document.getElementById('jobSortField');
+  if(sel.value===field){const dir=document.getElementById('jobSortDir');dir.value=dir.value==='asc'?'desc':'asc';}
+  else sel.value=field;
+  renderAllJobCols();
+}
+function renderAllJobCols(){
+  const configs=[
+    {key:'done',label:'Completed',cls:'b-green',color:'var(--green)'},
+    {key:'failed',label:'Failed',cls:'b-red',color:'var(--red)'},
+    {key:'pending',label:'Pending',cls:'b-amber',color:'var(--amber)'},
+  ];
+  const sf=document.getElementById('jobSortField').value,sd=document.getElementById('jobSortDir').value;
+  const fl={co:'Account',csm:'CSM',name:'User',jobs:'Jobs',output:'Output',dest:'Dest.',lastRun:'Last run'};
+  document.getElementById('jobStatusGrid').innerHTML=configs.map(cfg=>{
+    const rows=getSortedJobRows(cfg.key),total=rows.reduce((s,r)=>s+r.jobs,0);
+    const headers=['co','csm','name','jobs','output','dest','lastRun'].map(c=>{
+      const active=c===sf,arrow=active?(sd==='asc'?'↑':'↓'):'';
+      return `<th class="sortable" onclick="setSortField('${c}')" style="${active?'background:var(--primary-light);':''}">${fl[c]}<span style="margin-left:3px;font-size:9px;">${arrow}</span></th>`;
+    }).join('');
+    const bodyRows=rows.map(r=>`<tr>
+      <td style="font-weight:600;">${r.co}</td>
+      <td style="color:var(--g600);">${r.csm}</td>
+      <td>${r.name}</td>
+      <td style="font-family:var(--font-mono);font-weight:600;">${r.jobs}</td>
+      <td>${r.output}</td><td>${r.dest}</td>
+      <td style="color:var(--g600);">${r.lastRun.slice(5).replace('-','/')}</td>
+    </tr>`).join('');
+    return `<div class="job-col">
+      <div style="display:flex;align-items:baseline;gap:8px;padding:11px 13px;border-bottom:2px solid var(--primary);background:var(--primary-pale);">
+        <span style="font-size:22px;font-weight:300;color:${cfg.color};font-family:var(--font-mono);">${total}</span>
+        <span class="badge ${cfg.cls}">${cfg.label}</span>
+        <span style="font-size:10px;color:var(--g400);margin-left:4px;">${rows.length} records</span>
+      </div>
+      <table style="table-layout:auto;min-width:280px;"><thead><tr>${headers}</tr></thead><tbody>${bodyRows}</tbody></table>
+    </div>`;
+  }).join('');
+}
 
-function applyAll(){renderKPIs();renderTrendChart();renderCSMTable();renderDeclining();renderAllJobCols();renderRoster();renderAccounts();if(selAcctId)selectAccount(selAcctId,false);}
+function applyAll(){
+  renderKPIs();
+  renderTrendChart();
+  renderCSMTable();
+  renderDeclining();
+  renderAllJobCols();
+  renderRoster();
+  renderAccounts();
+  if(selAcctId) selectAccount(selAcctId,false);
+}
 
 window.addEventListener('load', applyAll);
-window.addEventListener('resize', ()=>{ renderTrendChart(); if(selAcctId){ const a=accounts.find(x=>x.id===selAcctId); if(a){ const u=a.users[selUserId]; const cid='uc-'+selAcctId+'-'+selUserId; if(document.getElementById(cid)){ drawLineChart(cid,MONTHS_ALL.slice(-getTF()),[{data:sliceN(u.monthlyHits),color:'#0033A0',fill:true,fillColor:'rgba(0,51,160,0.07)'},{data:sliceN(u.monthlyLogins),color:'#006633',dash:[5,3]},{data:sliceN(u.monthlyPCs),color:'#7a4800',dash:[2,2]}]); }}}});
+window.addEventListener('resize', ()=>{
+  renderTrendChart();
+  if(selAcctId){
+    const a=accounts.find(x=>x.id===selAcctId);
+    if(a){
+      const u=a.users[selUserId],cid='uc-'+selAcctId+'-'+selUserId;
+      if(document.getElementById(cid)){
+        const n=getTF();
+        drawLineChart(cid,MONTHS_ALL.slice(-n),[
+          {data:sliceN(u.monthlyHits),color:'#2c5f8a',fill:true,fillColor:'rgba(44,95,138,0.07)'},
+          {data:sliceN(u.monthlyLogins),color:'#1a6b3a',dash:[5,3]},
+          {data:sliceN(u.monthlyPCs),color:'#7a4800',dash:[2,2]}
+        ]);
+      }
+    }
+  }
+});
 </script>
 </body>
 </html>
